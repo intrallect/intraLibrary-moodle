@@ -26,15 +26,6 @@
 	</target>
 
 	<target name="build_archives" depends="build">
-
-		<!--
-		<echo msg="Building repository plugin archive" />
-		<tar destfile="${builddir}/repository-intralibrary-${buildNumber}.tar.gz" compression="gzip" basedir="${srcdir}/repository" />
-		
-		<echo msg="Building filter plugin archive" />
-		<tar destfile="${builddir}/filter-intralibrary-${buildNumber}.tar.gz" compression="gzip" basedir="${srcdir}/filter" />
-		-->
-
 		<echo msg="Building filter plugin archive" />
 		<tar destfile="${builddir}/FULL-moodle-intralibrary-${buildNumber}.tar.gz" compression="gzip" basedir="${srcdir}" />
 	</target>
@@ -92,25 +83,5 @@
 			<arg value="${ignoreDirs}" />
 		</exec>
 	</target>
-
-
-	<!-- Unit Tests -->
-	<!-- Disabled as there are none
-	<target name="simpletest">
-		<if>
-			<isset property="phpPath" />
-			<then>
-				<echo msg="Using PHP Path ${phpPath} for SimpleTest unit testing" />
-			</then>
-			<else>
-				<property name="phpPath" value="php" />
-				<echo msg="Using default PHP Path" />
-			</else>
-		</if>
-		<echo msg="SimpleTest..." />
-		<exec command="${phpPath} ${plugindir}/mastery/tests/suite.php ${logdir}/simpletests.xml" />
-		<exec command="xsltproc resources/simpletest_to_junit.xsl ${logdir}/simpletests.xml > ${logdir}/junittests.xml" />
-	</target>
-	-->
 
 </project>

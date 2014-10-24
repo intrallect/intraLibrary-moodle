@@ -1,1 +1,3 @@
-This is a mirror of Intrallect's internal git repo
+## Installation
+
+copy all directories from `src` to your moodle directory

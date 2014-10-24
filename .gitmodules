@@ -1,0 +1,3 @@
+[submodule "src/repository/intralibrary/vendors/IntraLibrary-PHP"]
+	path = src/repository/intralibrary/vendors/IntraLibrary-PHP
+	url = git@github.com:intrallect/intraLibrary-PHP.git

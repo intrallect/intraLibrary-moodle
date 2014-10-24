@@ -1,0 +1,66 @@
+.file-picker .fp-select-buttons { margin-left: 8px; }
+.file-picker .intralibrary-info a[href] { text-decoration: underline; }
+
+.file-picker .intralibrary-preupload-form p { font-style: italic; margin-top: 1em; }
+.file-picker .intralibrary-preupload-form input[type=submit] {
+	margin: 4px 0 0 4px;
+	padding: 2px 4px;
+}
+
+iframe.intralibrary-preupload-iframe,
+iframe.intralibrary-pixel-iframe {
+	width: 1px;
+	height: 1px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	border: 0;
+}
+
+.file-picker.repository_intralibrary_upload .fp-upload-btn,
+.file-picker.repository_intralibrary_upload .fp-cancel-btn,
+.file-picker.repository_intralibrary_upload_ims .fp-upload-btn,
+.file-picker.repository_intralibrary_upload_ims .fp-cancel-btn {
+	margin: 1em;
+}
+
+/* Upload form*/
+.file-picker .intralibrary-upload td.mdl-right {
+	vertical-align: top;
+	padding-top: 7px;
+}
+
+.file-picker .intralibrary-upload img.help {
+	cursor: help;
+	width: 14px;
+	height: 14px;
+	vertical-align: bottom;
+}
+
+/* For sharing */
+.intralibrary-upload-types { font-size: 1.2em; padding: 15px; }
+.intralibrary-upload-types label.selected { font-weight: bold; }
+.intralibrary-upload-types input { margin: 2px 4px 0 3px; vertical-align: text-top; }
+
+.file-picker.intralibrary-file-for-sharing .control-label { width: 180px; }
+.file-picker.intralibrary-file-for-sharing .controls { margin-left: 180px; }
+
+.mb-10{
+	margin-bottom: 10px;
+}
+
+.file-picker .fp-repo-items .browse-icon{
+	vertical-align: middle;
+}
+.file-picker .fp-repo-items .browse-icon-desc{
+	width:auto;
+	padding-right:5px;
+}
+
+.upload-button-container{
+	margin:0px !important;
+	padding:0px !important;
+	background-color: transparent !important;
+	border-top: 0 !important;
+}
+

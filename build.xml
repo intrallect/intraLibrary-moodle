@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="intraLibrary-Moodle" default="build">
+
+	<property name="builddir" value="build" />
+	<property name="srcdir" value="src" />
+	<property name="logdir" value="${builddir}/logs" />
+	<property name="ignoreDirs" value="*/vendors/" />
+
+	<target name="clean">
+		<echo msg="Clean..." />
+		<delete dir="${builddir}" />
+	</target>
+
+	<target name="prepare" depends="clean">
+		<echo msg="Prepare..." />
+		<mkdir dir="${builddir}" />
+		<mkdir dir="${logdir}" />
+		<echo msg="Setting permissions..." />
+		<exec command="chmod 777 ${builddir}" checkreturn="True" />
+		<exec command="chmod 777 ${logdir}" checkreturn="True" />
+	</target>
+
+	<!-- Regular Build -->
+	<target name="build" depends="prepare,phpcs,phpmd">
+		<echo msg="Running Build" />
+	</target>
+
+	<target name="build_archives" depends="build">
+
+		<!--
+		<echo msg="Building repository plugin archive" />
+		<tar destfile="${builddir}/repository-intralibrary-${buildNumber}.tar.gz" compression="gzip" basedir="${srcdir}/repository" />
+		
+		<echo msg="Building filter plugin archive" />
+		<tar destfile="${builddir}/filter-intralibrary-${buildNumber}.tar.gz" compression="gzip" basedir="${srcdir}/filter" />
+		-->
+
+		<echo msg="Building filter plugin archive" />
+		<tar destfile="${builddir}/FULL-moodle-intralibrary-${buildNumber}.tar.gz" compression="gzip" basedir="${srcdir}" />
+	</target>
+
+	<!-- PHP dependency checker -->
+	<target name="pdepend">
+		<echo msg="PHP Depend..." />
+		<exec command="pdepend --jdepend-xml=${logdir}/jdepend.xml ${srcdir}" escape="false" />
+	</target>
+
+	<!-- PHP CodeSniffer -->
+	<target name="phpcs">
+		<echo msg="PHP CodeSniffer..." />
+		<exec executable="phpcs" escape="false">
+			<arg value="--standard=resources/CodeSniffer/Standards/moodle" />
+			<arg value="--extensions=php" />
+			<arg value="--ignore=${ignoreDirs}" />
+			<arg value="--report=checkstyle" />
+			<arg value="${srcdir}" />
+			<arg value=">" />
+			<arg value="${logdir}/checkstyle.xml" />
+		</exec>
+	</target>
+	<target name="phpcs-out">
+		<echo msg="PHP CodeSniffer..." />
+		<exec executable="phpcs" escape="false" logoutput="true">
+			<arg value="--standard=resources/CodeSniffer/Standards/moodle" />
+			<arg value="--extensions=php" />
+			<arg value="--ignore=${ignoreDirs}" />
+			<arg value="${srcdir}" />
+		</exec>
+	</target>
+
+	<!-- PHP Mess Detector -->
+	<target name="phpmd">
+		<echo msg="PHPMD..." />
+
+		<exec executable="phpmd" escape="false">
+			<arg value="${srcdir}" />
+			<arg value="xml" />
+			<arg value="codesize,design,naming,unusedcode" />
+			<arg value="--exclude" />
+			<arg value="${ignoreDirs}" />
+			<arg value=">" />
+			<arg value="${logdir}/pmd.xml" />
+		</exec>
+	</target>
+	<target name="phpmd-out">
+		<echo msg="PHPMD..." />
+		<exec executable="phpmd" escape="false" logoutput="true">
+			<arg value="${srcdir}" />
+			<arg value="text" />
+			<arg value="codesize,design,naming,unusedcode" />
+			<arg value="--exclude" />
+			<arg value="${ignoreDirs}" />
+		</exec>
+	</target>
+
+
+	<!-- Unit Tests -->
+	<!-- Disabled as there are none
+	<target name="simpletest">
+		<if>
+			<isset property="phpPath" />
+			<then>
+				<echo msg="Using PHP Path ${phpPath} for SimpleTest unit testing" />
+			</then>
+			<else>
+				<property name="phpPath" value="php" />
+				<echo msg="Using default PHP Path" />
+			</else>
+		</if>
+		<echo msg="SimpleTest..." />
+		<exec command="${phpPath} ${plugindir}/mastery/tests/suite.php ${logdir}/simpletests.xml" />
+		<exec command="xsltproc resources/simpletest_to_junit.xsl ${logdir}/simpletests.xml > ${logdir}/junittests.xml" />
+	</target>
+	-->
+
+</project>

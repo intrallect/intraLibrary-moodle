@@ -53,7 +53,7 @@ class block_intralibrary extends block_base {
      * this procedure in reverse engineering the upgradelib.php
      * @return boolean
      */
-    public function _self_test(){
-        return true;
+    public function _self_test() {
+        return TRUE;
     }
 }

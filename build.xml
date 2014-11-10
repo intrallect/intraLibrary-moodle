@@ -38,13 +38,13 @@
 	</target>
 
 	<!-- Build single plugin package archive -->
-	<target name="build_archive" depends="validate" description="Builds all plugins into a single zip file">
+	<target name="build_bundle" depends="validate" description="Builds all plugins into a single zip file">
 		<echo msg="Building plugins package" />
 		<zip destfile="${builddir}/intralibrary-moodle-plugins${archiveSuffix}" basedir="${srcdir}" />
 	</target>
 
 	<!-- Build individual archives for each plugin -->
-	<target name="build_archives" depends="validate" description="Builds all plugins into individual zip files">
+	<target name="build_all_plugins" depends="validate" description="Builds all plugins into individual zip files">
 		<foreach list="${pluginList}" target="build_plugin" param="pluginPath" />
 	</target>
 

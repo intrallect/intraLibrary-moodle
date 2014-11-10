@@ -1,6 +1,7 @@
 ## Installation
 
-Clone the repo `git clone git@github.com:intrallect/intraLibrary-moodle.git`.
+- `git clone git@github.com:intrallect/intraLibrary-moodle.git`.
+- `git submodule init && git submodule update`
 
 Then you a few options. In order to use the first two you need to have [Phing](http://www.phing.info/) installed (tested with 2.4.14):
 

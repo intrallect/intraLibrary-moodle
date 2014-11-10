@@ -48,9 +48,13 @@
 		<foreach list="${pluginList}" target="build_plugin" param="pluginPath" />
 	</target>
 
+	<!--Build an individual plugin -->
 	<target name="build_plugin" description="Builds a specific plugin. 'pluginPath' property must be set">
 
 		<fail message="'pluginPath' must be set" unless="pluginPath" />
+
+		<available file="${srcdir}/${pluginPath}" property="pluginPathExists" type="dir" />
+		<fail message="${pluginPath} does not exist" unless="pluginPathExists" />
 
 		<property name="plugin" value="${pluginPath}">
 			<filterchain>

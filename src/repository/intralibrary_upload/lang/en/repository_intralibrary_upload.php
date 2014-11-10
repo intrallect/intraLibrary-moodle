@@ -3,12 +3,13 @@ if (!isset($string)) {
     $string = array();
 }
 
+$string['pluginname'] = 'IntraLibrary Upload Plugin'; // required for moodle plugin directory validation
+
 $string = array_merge($string,
         array(
             'intralibrary_upload:view' => 'View IntraLibrary Upload Repository',
 
              // settings page
-            'pluginname' => 'IntraLibrary Upload Plugin',
             'configplugin' => 'IntraLibrary Upload Plugin Configuration', 'pluginname_help' => 'IntraLibrary Upload Plugin: help',
             'settings' => 'settings',
             'setting_kaltura_url' => 'Kaltura URL', 'setting_kaltura_admin_secret' => 'Kaltura Admin Secret',

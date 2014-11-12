@@ -15,7 +15,7 @@ This set of plugins require APIs available in intraLibrary 3.7 and above and sho
 
 ## Documentation
 
-Available [here](http://knowledge.intrallect.com/manuals/moodle/MoodlePluginDocumentation.pdf) (version numbers are't up to date, but documentation should stil apply).
+Available [here](http://knowledge.intrallect.com/manuals/moodle/MoodlePluginDocumentation.pdf)
 
 ## Licence
 

@@ -28,6 +28,7 @@ require_once __DIR__ . '/vendors/IntraLibrary-PHP/src/IntraLibrary/Loader.php';
 
 $config = repository_intralibrary_config();
 \IntraLibrary\Configuration::set($config);
+\IntraLibrary\Configuration::set('timeout', $CFG->intraLibrary_timeout);
 
 // Try to use Memcache for caching, then fall back on APC
 $memcache = repository_intralibrary_get_memcache();

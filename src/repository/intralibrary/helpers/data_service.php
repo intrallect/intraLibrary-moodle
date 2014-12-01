@@ -38,23 +38,38 @@ class repository_intralibrary_data_service {
     public function get_categories() {
 
         if (!isset($this->categories)) {
-
-            if (!$this->catTaxonomySource) {
-                return array();
-            }
-
-            $taxonomy = $this->tProvider->retrieveBySource($this->catTaxonomySource);
-            if (!$taxonomy) {
-                $this->logger->log("Configured Category Taxonomy Source ($this->catTaxonomySource) isn't available.");
-                return array();
-            }
-
-            // the taxonomy will have one child (being the root taxon)
-            $taxonIds = $taxonomy->getChildIds();
-            $this->categories = $this->_get_category_children($taxonIds[0]);
+            $this->categories = $this->_fetch_categories();
         }
 
         return $this->categories;
+    }
+
+    /**
+     * Request a list of categories from intralibrary
+     *
+     * @return array taxon refId/name pairs
+     */
+    private function _fetch_categories() {
+
+        if (!$this->catTaxonomySource) {
+            return array();
+        }
+
+        try {
+            $taxonomy = $this->tProvider->retrieveBySource($this->catTaxonomySource);
+        } catch (Exception $ex) {
+            $this->logger->log("Unable to fetch Taxonomy data: " . $ex->getMessage());
+            return array();
+        }
+
+        if (!$taxonomy) {
+            $this->logger->log("Configured Category Taxonomy Source ($this->catTaxonomySource) isn't available.");
+            return array();
+        }
+
+        // the taxonomy will have one child (being the root taxon)
+        $taxonIds = $taxonomy->getChildIds();
+        return $this->_get_category_children($taxonIds[0]);
     }
 
     /**
@@ -148,8 +163,9 @@ class repository_intralibrary_data_service {
             $collections = $collectionProvider->getAvailableCollections(TRUE, $useCached);
 
         } catch (Exception $ex) {
-            intralibrary_add_moodle_log("update", $ex->getMessage());
-            $this->logger->log($ex->getMessage());
+            $message = "Unable to get collections: " . $ex->getMessage();
+            intralibrary_add_moodle_log("update", $message);
+            $this->logger->log($message);
         }
 
         return $collections;

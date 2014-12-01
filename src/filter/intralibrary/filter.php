@@ -1,4 +1,7 @@
 <?php
+
+use IntraLibrary\Cache;
+
 class filter_intralibrary extends moodle_text_filter {
     private static $_initialised = FALSE;
     private static $_user_id;
@@ -66,25 +69,33 @@ class filter_intralibrary extends moodle_text_filter {
             $learningObjectId   = $matches[1];
             $title              = isset($matches[2]) ? urldecode($matches[2]) : NULL;
 
-            try {
-                return $this->_get_embed_code($learningObjectId, $title);
-            } catch (Exception $ex) {
-
-                $message = "Unable to display Kaltura video ";
-                if ($title) {
-                    $message .= "&quot;$title&quot; ($learningObjectId)";
-                } else {
-                    $message .= "$learningObjectId";
-                }
-
-                return "<p class='error'>{$message}. {$ex->getMessage()}</p>";
-            }
+            return $this->_get_cached_embed_code($learningObjectId, $title);
         }
 
         return $matches[0];
     }
 
-    private function _get_embed_code($learningObjectId, $title) {
+    private function _get_cached_embed_code($learningObjectId, $title) {
+
+        $cacheKey   = 'kaltura-embed-code:' . $learningObjectId;
+        $embedCode  = Cache::load($cacheKey);
+
+        if ($embedCode) {
+            return $embedCode;
+        }
+
+        try {
+            $embedCode = $this->_get_embed_code($learningObjectId);
+            Cache::save($cacheKey, $embedCode);
+        } catch (Exception $ex) {
+            $message    = $title ? "&quot;$title&quot; ($learningObjectId)" : $learningObjectId;
+            $embedCode  = "<p class='error'>Unable to display Kaltura video {$message}. {$ex->getMessage()}</p>";
+        }
+
+        return $embedCode;
+    }
+
+    private function _get_embed_code($learningObjectId) {
 
         if (empty(self::$_user_id)) {
             throw new Exception("Please re-check your intraLibrary repository settings");
@@ -112,8 +123,7 @@ class filter_intralibrary extends moodle_text_filter {
                 return $embed;
             }
 
-            $name = $title ? ('"' . urldecode($title) . '"') : 'This video';
-            return "<p><em>$name is being processed by Kaltura.. please try again in a few minutes</em></p>";
+            throw new Exception("This video is being processed by Kaltura.. please try again in a few minutes.");
         }
     }
 

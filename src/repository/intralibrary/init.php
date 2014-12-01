@@ -35,7 +35,7 @@ $memcache = repository_intralibrary_get_memcache();
 if ($memcache) {
     $memcache_ns = 'moodle/intralibrary/';
     $cacheLoad = function ($key) use($memcache, $memcache_ns) {
-            return $memcache->get($memcache_ns . $key);
+        return $memcache->get($memcache_ns . $key);
     };
     $cacheSave = function ($key, $value, $expires = 0) use($memcache, $memcache_ns) {
         return $memcache->set($memcache_ns . $key, $value, 0, $expires);

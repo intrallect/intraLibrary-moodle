@@ -89,7 +89,7 @@ class filter_intralibrary extends moodle_text_filter {
             Cache::save($cacheKey, $embedCode);
         } catch (Exception $ex) {
             $message    = $title ? "&quot;$title&quot; ($learningObjectId)" : $learningObjectId;
-            $embedCode  = "<p class='error'>Unable to display Kaltura video {$message}. {$ex->getMessage()}</p>";
+            $embedCode  = "<p class='error'>" . $this->_getString('unable_to_display') . " {$message} {$ex->getMessage()}</p>";
         }
 
         return $embedCode;
@@ -98,7 +98,7 @@ class filter_intralibrary extends moodle_text_filter {
     private function _get_embed_code($learningObjectId) {
 
         if (empty(self::$_user_id)) {
-            throw new Exception("Please re-check your intraLibrary repository settings");
+            throw new Exception($this->_getString('check_settings'));
         }
 
         $req = new \IntraLibrary\Service\RESTRequest();
@@ -113,7 +113,7 @@ class filter_intralibrary extends moodle_text_filter {
         if ($error) {
             throw new Exception($error);
         } else if (empty($data['LearningObject'])) {
-            throw new Exception("Missing Embed Code");
+            throw new Exception($this->_getString('missing_embed_code'));
         } else {
 
             $embed = trim($data['LearningObject']);
@@ -123,8 +123,17 @@ class filter_intralibrary extends moodle_text_filter {
                 return $embed;
             }
 
-            throw new Exception("This video is being processed by Kaltura.. please try again in a few minutes.");
+            throw new Exception($this->_getString('video_being_proccessed'));
         }
+    }
+
+    /**
+     * Helper function for language strings
+     *
+     * @param unknown $stringId
+     */
+    public function _getString($stringId){
+        return get_string('filter_intralibrary', $stringId);
     }
 
     /**

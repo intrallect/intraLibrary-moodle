@@ -1,84 +1,59 @@
 <?php
-if (!isset($string)) {
-    $string = array();
-}
-
-$string['pluginname'] = 'IntraLibrary Plugin'; // required for moodle plugin directory validation
-
-$string = array_merge($string,
-        array(
-            'intralibrary:view' => 'View IntraLibrary Repository',
-
-            'configplugin' => 'IntraLibrary Plugin Configuration',
-            'pluginname_help' => 'IntraLibrary Plugin: help',
-
-            // Search
-            'search_back' => 'Back',
-            'search_query' => 'Search for',
-            'search_myresources' => 'Only my resources:',
-            'search_yes' => 'Yes',
-            'search_no' => 'No',
-            'search_selectone' => '-- Any --',
-
-            'search_collection' => 'Collection',
-
-            'search_filetype' => 'File Type',
-            'search_word' => 'Word',
-            'search_pdf' => 'PDF',
-            'search_image' => 'Image',
-
-            'search_starrating' => 'Star Rating',
-            'search_star4' => '4 or more',
-            'search_star3' => '3 or more',
-            'search_star2' => '2 or more',
-            'search_star1' => '1 or more',
-
-            'search_category' => 'Category',
-            'search_kaltura_error' => 'You cannot attach a Kaltura video here, try embedding it using the media icon in the text editor instead.',
-
-            // Settings
-            'setting_hostname' => 'IntraLibrary URL',
-            'setting_admin_username' => 'IntraLibrary Admin Username',
-            'setting_admin_password' => 'IntraLibrary Admin Password',
-            'setting_logenabled' => 'Log Enabled',
-            'setting_logfile' => 'Log File',
-            'setting_error_credentials' => 'Invalid Admin Username and/or Password',
-            'setting_error_url' => 'Invalid Intralibrary URL: ',
-            'setting_memcache' => 'Memcache server (host:port)',
-            'setting_memcache_invalid' => 'Unable to connect to memcache server',
-
-            // categoty settings
-            'setting_category' => 'IntraLibrary Category Source',
-            'setting_category_select' => '-- Select One --',
-            'setting_category_select_missing' => 'Select a Category Source',
-            'setting_category_info' => 'You must configure IntraLibrary before you can select a category',
-
-            // authentication settings
-            'setting_authentication' => 'User Authentication Method',
-            'settings_user_auth_error' => 'Please select a User Authentication Method',
-            'settings_user_auth_open' => 'Open intraLibrary',
-            'settings_user_auth_open_token' => 'Open intraLibrary with Collection Token',
-            'settings_user_auth_token' => 'Authentication token',
-            'settings_user_auth_token_missing' => 'Missing authentication token',
-            'settings_user_auth_shared' => 'Shared authentication',
-            'settings_user_auth_shared_class' => 'SSO User class<br/>(path to .php file)',
-            'settings_user_auth_shared_class_missing' => 'Missing SSO User class (is the supplied path valid?)',
-            'settings_user_auth_shared_class_bad_class' => '"{$a->path}" does not contains the called "{$a->class_name}"',
-            'settings_user_auth_shared_class_no_iterface' => 'SSO User class ("{$a->class_name}") must implement the "{$a->interface}" interface',
-            'settings_user_collections' => 'Enabled Collections',
-            'settings_user_collections_info' => 'You must properly configure intraLibrary before selecting collections',
-            'settings_user_collections_error' => 'Please select at least one collection',
-
-            // addition search CQL settings
-            'settings_customCQL' => 'Addition search CQL',
-            'settings_customCQL_query' => 'Query',
-            'settings_customCQL_desc' => 'Please note, your custom query will be added after each form generated query.',
-            'settings_customCQL_error' => 'Missing custom CQL',
-            'settings_customCQL_error2' => 'Syntax error, please verify your custom CQL',
-            'cachedef_accces_cache' => 'IntraLibrary session cache',
-            'cachedef_data_cache' => 'IntraLibrary data cache',
-
-            // events
-            'upload_event_name' => 'IntraLibrary Upload',
-            'general_event_name' => 'IntraLibrary Log'
-        ));
+$string['pluginname'] = 'IntraLibrary Plugin';
+$string['intralibrary:view'] = 'View IntraLibrary Repository';
+$string['configplugin'] = 'IntraLibrary Plugin Configuration';
+$string['pluginname_help'] = 'IntraLibrary Plugin: help';
+$string['search_back'] = 'Back';
+$string['search_query'] = 'Search for';
+$string['search_myresources'] = 'Only my resources:';
+$string['search_yes'] = 'Yes';
+$string['search_no'] = 'No';
+$string['search_selectone'] = '-- Any --';
+$string['search_collection'] = 'Collection';
+$string['search_filetype'] = 'File Type';
+$string['search_word'] = 'Word';
+$string['search_pdf'] = 'PDF';
+$string['search_image'] = 'Image';
+$string['search_starrating'] = 'Star Rating';
+$string['search_star4'] = '4 or more';
+$string['search_star3'] = '3 or more';
+$string['search_star2'] = '2 or more';
+$string['search_star1'] = '1 or more';
+$string['search_category'] = 'Category';
+$string['search_kaltura_error'] = 'You cannot attach a Kaltura video here, try embedding it using the media icon in the text editor instead.';
+$string['setting_hostname'] = 'IntraLibrary URL';
+$string['setting_admin_username'] = 'IntraLibrary Admin Username';
+$string['setting_admin_password'] = 'IntraLibrary Admin Password';
+$string['setting_logenabled'] = 'Log Enabled';
+$string['setting_logfile'] = 'Log File';
+$string['setting_error_credentials'] = 'Invalid Admin Username and/or Password';
+$string['setting_error_url'] = 'Invalid Intralibrary URL: ';
+$string['setting_memcache'] = 'Memcache server (host:port)';
+$string['setting_memcache_invalid'] = 'Unable to connect to memcache server';
+$string['setting_category'] = 'IntraLibrary Category Source';
+$string['setting_category_select'] = '-- Select One --';
+$string['setting_category_select_missing'] = 'Select a Category Source';
+$string['setting_category_info'] = 'You must configure IntraLibrary before you can select a category';
+$string['setting_authentication'] = 'User Authentication Method';
+$string['settings_user_auth_error'] = 'Please select a User Authentication Method';
+$string['settings_user_auth_open'] = 'Open intraLibrary';
+$string['settings_user_auth_open_token'] = 'Open intraLibrary with Collection Token';
+$string['settings_user_auth_token'] = 'Authentication token';
+$string['settings_user_auth_token_missing'] = 'Missing authentication token';
+$string['settings_user_auth_shared'] = 'Shared authentication';
+$string['settings_user_auth_shared_class'] = 'SSO User class<br/>(path to .php file)';
+$string['settings_user_auth_shared_class_missing'] = 'Missing SSO User class (is the supplied path valid?)';
+$string['settings_user_auth_shared_class_bad_class'] = '"{$a->path}" does not contains the called "{$a->class_name}"';
+$string['settings_user_auth_shared_class_no_iterface'] = 'SSO User class ("{$a->class_name}") must implement the "{$a->interface}" interface';
+$string['settings_user_collections'] = 'Enabled Collections';
+$string['settings_user_collections_info'] = 'You must properly configure intraLibrary before selecting collections';
+$string['settings_user_collections_error'] = 'Please select at least one collection';
+$string['settings_customCQL'] = 'Addition search CQL';
+$string['settings_customCQL_query'] = 'Query';
+$string['settings_customCQL_desc'] = 'Please note, your custom query will be added after each form generated query.';
+$string['settings_customCQL_error'] = 'Missing custom CQL';
+$string['settings_customCQL_error2'] = 'Syntax error, please verify your custom CQL';
+$string['cachedef_accces_cache'] = 'IntraLibrary session cache';
+$string['cachedef_data_cache'] = 'IntraLibrary data cache';
+$string['upload_event_name'] = 'IntraLibrary Upload';
+$string['general_event_name'] = 'IntraLibrary Log';

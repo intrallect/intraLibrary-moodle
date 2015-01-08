@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 $plugin->component = "block_intralibrary";
-$plugin->version = 2014102400;
+$plugin->version = 2015010800;
 $plugin->requires = 2014051200;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '1.0';

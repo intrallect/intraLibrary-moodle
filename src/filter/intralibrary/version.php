@@ -16,7 +16,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2014120100;
+$plugin->version = 2015010800;
 $plugin->requires = 2014051200;
 $plugin->component = 'filter_intralibrary';
 $plugin->maturity = MATURITY_STABLE;

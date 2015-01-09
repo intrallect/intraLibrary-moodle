@@ -14,10 +14,12 @@
 		augment_upload_form: function(Y, form_id, client_id) {
 
 			var iframe_name = 'intralibrary-uploadframe-' + client_id,
-				form_div = Y.one('#' + form_id);
+				form_div = Y.one('#' + form_id),
+				upload_button_container = Y.one('.upload-button-container');
 
 			// hide the form and the submit button
 			form_div.setStyle('display', 'none');
+			upload_button_container.setStyle('display', 'none');
 
 			var preupload_iframe = Y.Node.create('<iframe></iframe>')
 					.set('name', iframe_name)

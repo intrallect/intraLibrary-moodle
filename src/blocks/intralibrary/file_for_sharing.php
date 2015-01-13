@@ -25,6 +25,8 @@ $PAGE->set_url(new moodle_url($url));
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title("IntraLibrary File For Sharing");
 $PAGE->set_heading($COURSE->fullname);
+$PAGE->requires->string_for_js('ffs_uploaded','block_intralibrary');
+$PAGE->requires->string_for_js('ffs_upload_other','block_intralibrary');
 
 try {
     // initialise intralibrary upload repositories
@@ -64,30 +66,33 @@ echo html_writer::start_tag('div', array(
 
 <h2 class="main">
 	<img src="/repository/intralibrary_upload/pix/icon.png" alt="" />
-	File for Sharing
+	<?php echo get_string('ffs_title', 'block_intralibrary'); ?>
 </h2>
 <?php if (!$repo) : ?>
-<div>Contributing to IntraLibrary is only available to staff members</div>
+<div><?php echo get_string('ffs_staff_only', 'block_intralibrary'); ?></div>
 <?php else: ?>
 <div class="mform">
 	<fieldset>
-		<legend>Upload files directly to <?php echo $repo->name ?></legend>
+		<legend><?php echo get_string('ffs_direct_upload', 'block_intralibrary', $repo->name) ;?></legend>
 		<div class="file-picker intralibrary-file-for-sharing"
 			id="filepicker-<?php echo $clientId ?>">
 			<div class="fp-upload-form mdl-align intralibrary-upload">
 				<div class="intralibrary-upload-types">
-					<label>Single file<input type="radio" name="upload_type"
-						value="file" checked="checked"></label> <label>IMS/SCORM package<input
-						type="radio" name="upload_type" value="ims"></label> <label>Web
-						resource<input type="radio" name="upload_type" value="url">
+					<label><?php echo get_string('ffs_type_single', 'block_intralibrary'); ?>
+					   <input type="radio" name="upload_type" value="file" checked="checked">
+					</label>
+					<label><?php echo get_string('ffs_type_content_package', 'block_intralibrary'); ?>
+					   <input type="radio" name="upload_type" value="ims"></label>
+					<label><?php echo get_string('ffs_type_link', 'block_intralibrary'); ?>
+					   <input type="radio" name="upload_type" value="url">
 					</label>
 				</div>
 				<form id="<?php echo $uploadFormId ?>" method="POST"
 					enctype="multipart/form-data" class="form-horizontal">
-					Loading upload form ... <img class="smallicon" alt="loading..."
+					<?php echo get_string('ffs_uploading', 'block_intralibrary'); ?><img class="smallicon" alt="loading..."
 						src="<?php echo $OUTPUT->pix_url('i/loading_small') ?>" />
 					<noscript>
-						<p>JavaScript is required to use this feature</p>
+						<p><?php echo get_string('ffs_no_javascript', 'block_intralibrary'); ?></p>
 					</noscript>
 				</form>
 				<div class="buttonContainer">
@@ -98,8 +103,7 @@ echo html_writer::start_tag('div', array(
 					<div>
 						<img class="smallicon" alt="loading..."
 							src="<?php echo $OUTPUT->pix_url('i/loading_small') ?>" />
-						<p>Uploading to IntraLibrary... please be patient with large
-							files.</p>
+						<p><?php echo get_string('ffs_uploading_large', 'block_intralibrary'); ?></p>
 					</div>
 				</div>
 			</div>

@@ -29,7 +29,7 @@ class block_intralibrary extends block_base {
         if ($this->content !== NULL) {
             return $this->content;
         }
-        $this->title = "Intralibrary Quick Deposit";
+        $this->title = "IntraLibrary Block";
     }
 
     public function get_content() {
@@ -56,11 +56,11 @@ class block_intralibrary extends block_base {
             } else {
                 $path = $CFG->wwwroot;
                 $link = $path . '/blocks/intralibrary/file_for_sharing.php';
-                $this->content->text = 'To deposit resources, click <a href="' . $link . '">here</a>.';
+                $this->content->text = get_string('default_body', 'block_intralibrary', $link);
             }
 
             if ($this->_is_admin() && !intralibrary_isEditor()) {
-                $this->content->text .= '<br /><p><i>Currently, only system administrators can see this plugin. To allow other faculty users to see it, configure the IntraLibrary Plugin with shared authentication.</i></p>';
+                $this->content->text .= '<br /><p><i>' . get_string('admin_only_hint', 'block_intralibrary') . '</i></p>';
             }
 
             return $this->content;

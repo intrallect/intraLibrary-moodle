@@ -82,8 +82,9 @@
 					}
 				}
 
-				showDialog({
-					message: "You have uploaded '" + value + "'\n\nDo you want to upload another file?",
+				showDialog( {
+					message: "<p>" + M.util.get_string('ffs_uploaded', 'block_intralibrary', value) + "</p>" +
+							"<p>" + M.util.get_string('ffs_upload_other', 'block_intralibrary')  +"</p>",
 					actionYes: function() {
 						var new_input = file_for_sharing.Y.Node.create('<input />');
 						new_input.set('type', file_input.get('type'));
@@ -94,7 +95,7 @@
 						file_input.replace(new_input);
 					},
 					actionNo: goHome
-				});
+				} );
 
 				toggleForm();
 			}

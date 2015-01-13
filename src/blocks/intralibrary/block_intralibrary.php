@@ -23,41 +23,44 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once __DIR__ . '/../../repository/intralibrary/abstract_repository_intralibrary.php';
-
 class block_intralibrary extends block_base {
 
     public function init() {
-        if (intralibrary_isEditor()) {
-            if ($this->content !== NULL) {
-                return $this->content;
-            }
-            $this->title = "Intralibrary Quick Deposit ";
+        if ($this->content !== NULL) {
+            return $this->content;
         }
+        $this->title = "Intralibrary Quick Deposit";
     }
 
     public function get_content() {
-        if (intralibrary_isEditor()) {
+        if ($this->_self_test()) {
             global $CFG;
+            global $USER;
+
             if ($this->content !== NULL) {
                 return $this->content;
             }
 
-            //set tilte content
-            if (! empty($this->config->title)) {
+            // set tilte content
+            if (!empty($this->config->title)) {
                 $this->title = $this->config->title;
             } else {
                 $name = trim(get_string('pluginname', 'repository_intralibrary'), "Plugin");
-                $this->title = get_string('uploadto', 'block_intralibrary')." ".$name;
+                $this->title = get_string('uploadto', 'block_intralibrary') . " " . $name;
             }
 
-            //set body content
-            $this->content = new stdClass;
-            if (! empty($this->config->blockbody)) {
+            // set body content
+            $this->content = new stdClass();
+            if (!empty($this->config->blockbody)) {
                 $this->content->text = $this->config->blockbody;
             } else {
                 $path = $CFG->wwwroot;
-                $link = $path.'/blocks/intralibrary/file_for_sharing.php';
-                $this->content->text = 'To deposit resources, click <a href="'.$link.'">here</a>.';
+                $link = $path . '/blocks/intralibrary/file_for_sharing.php';
+                $this->content->text = 'To deposit resources, click <a href="' . $link . '">here</a>.';
+            }
+
+            if ($this->_is_admin() && !intralibrary_isEditor()) {
+                $this->content->text .= '<br /><p><i>Currently, only system administrators can see this plugin. To allow other faculty users to see it, configure the IntraLibrary Plugin with shared authentication.</i></p>';
             }
 
             return $this->content;
@@ -74,9 +77,28 @@ class block_intralibrary extends block_base {
      *
      * To get around of this check we need to implement this method here. Unforunatly not much documentation online, I found
      * this procedure in reverse engineering the upgradelib.php
+     *
      * @return boolean
      */
     public function _self_test() {
-        return TRUE;
+        global $USER;
+        if ($this->_is_admin()) {
+            return TRUE;
+        } else {
+            return intralibrary_isEditor();
+        }
+    }
+
+    public function _is_admin() {
+        global $USER;
+        $admins = get_admins();
+        $isadmin = false;
+        foreach ($admins as $admin) {
+            if ($USER->id == $admin->id) {
+                $isadmin = true;
+                break;
+            }
+        }
+        return $isadmin;
     }
 }

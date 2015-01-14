@@ -87,10 +87,7 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
 
         $this->add_collections($mform);
 
-        $mform->closeHeaderBefore('memcache');
-
-        $this->add_element($mform, 'memcache', 'text');
-        $mform->setType('memcache', PARAM_RAW);
+        $mform->closeHeaderBefore('logenabled');
 
         $this->add_element($mform, 'logenabled', 'checkbox');
         $this->add_element($mform, 'logfile', 'text');
@@ -261,7 +258,6 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
                 'sso_user_class',
                 'category',
                 'customCQL',
-                'memcache',
                 'customCQL_query',
                 'logenabled',
                 'logfile'

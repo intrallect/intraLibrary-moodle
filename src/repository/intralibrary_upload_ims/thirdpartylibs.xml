@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<libraries>
+	<library>
+		<location>vendors/FluentDOM</location>
+		<name>FluentDOM</name>
+		<license>MIT</license>
+		<version>5.1.1</version>
+	</library>
+</libraries>

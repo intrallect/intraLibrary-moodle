@@ -187,7 +187,7 @@ class repository_intralibrary_upload extends abstract_repository_intralibrary {
         $ret['nosearch'] = TRUE;
         $ret['norefresh'] = TRUE;
         $ret['list'] = array();
-        $ret['uploadType'] = $this->_determinate_upload_type();
+        $ret['uploadType'] = $this->_determine_upload_type();
         $ret['dynload'] = FALSE;
         $ret['ext'] = $this->_accepted_mimetype();
 
@@ -214,7 +214,7 @@ class repository_intralibrary_upload extends abstract_repository_intralibrary {
         $manifest = $this->_create_manifest();
         $package = new \IntraLibrary\IMS\Package($manifest);
 
-        if ($this->_determinate_upload_type() == 'url') {
+        if ($this->_determine_upload_type() == 'url') {
             // ensure that a valid URL was supplied
             // and set it on the manifest
             $this->_attach_url($package);
@@ -273,7 +273,7 @@ class repository_intralibrary_upload extends abstract_repository_intralibrary {
 
         // if the upload request is coming from the file manager,
         // create a file from reference to use in the current session
-        if ($this->_determinate_upload_type() == "singleFile") {
+        if ($this->_determine_upload_type() == "singleFile") {
             require_once __DIR__ . '/../intralibrary/helpers/intralibrary_list_item.php';
             $reference = intralibrary_list_item::create_source($internalId, (string) $response->sac_title, $url);
 
@@ -314,14 +314,14 @@ class repository_intralibrary_upload extends abstract_repository_intralibrary {
     /**
      * This function calculates the upload action's target format based on a set of environmental variables.
      *
-     * The determinated format is sent to the client on "list" action. On upload, some of these required
-     * environmental variables are not accessable, so the client posts back the previously determinated
+     * The determined format is sent to the client on "list" action. On upload, some of these required
+     * environmental variables are not accessable, so the client posts back the previously determined
      * target format to help post upload processing.
      *
      * @return string
      */
-    private function _determinate_upload_type() {
-        // look for existing posted target format before trying to determinate it again
+    private function _determine_upload_type() {
+        // look for existing posted target format before trying to determine it again
         if (array_key_exists('upload_type', $_POST) && !empty($_POST['upload_type'])) {
             return $_POST["upload_type"];
         }

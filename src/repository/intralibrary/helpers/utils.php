@@ -207,7 +207,7 @@ function intralibrary_get_repository($type) {
 }
 
 /**
- * This function determinates wheter the current user has 'resource:addinstance' capability
+ * This function determines wheter the current user has 'resource:addinstance' capability
  * at any point in the moodle installation, result is stored in session cache in order to
  * prevent additional database queries.
  *
@@ -236,7 +236,7 @@ function intralibrary_isEditor() {
 function intralibrary_get_basic_log_data() {
     global $PAGE;
 
-    // determinate context and course id
+    // determine context and course id
     $context = $PAGE->context;
     $courseId = ($context->get_course_context(FALSE)) ? $context->get_course_context()->instanceid : get_site()->id;
 

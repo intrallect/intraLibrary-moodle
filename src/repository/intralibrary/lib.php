@@ -260,7 +260,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
         } else if (!empty($array['url'])) {
             if (strpos($array['url'], KALTURA_VIDEO_PREFIX) === 0) {
                 if ($this->_get_env() == "filemanager") {
-                   throw new moodle_exception('search_kaltura_error', 'repository_intralibrary');
+                    throw new moodle_exception('search_kaltura_error', 'repository_intralibrary');
                 }
                 $link = $array['url'];
             } else if (optional_param('get_original_filename', FALSE, PARAM_RAW)) {

@@ -14,12 +14,26 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-$plugin->component = "block_intralibrary";
-$plugin->version = 2015031102;
-$plugin->requires = 2014051200;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.0';
+/**
+ * Upgrade Script.
+ *
+ * @package    repository_intralibrary
+ * @category   repository
+ * @copyright  2015 Intrallect
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
-$plugin->dependencies = array(
-        'repository_intralibrary_upload_ims' => 2015031102
-);
+defined('MOODLE_INTERNAL') || die();
+
+
+function xmldb_repository_intralibrary_upgrade($oldversion) {
+
+    if ($oldversion <= 2015031101) {
+        $kalturaUrl = get_config('intralibrary_upload', 'kaltura_url');
+        if ($kalturaUrl) {
+            set_config('kaltura_url', $kalturaUrl, 'intralibrary');
+        }
+    }
+
+    return true;
+}

@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-$plugin->version = 2015011900;
+$plugin->version = 2015031102;
 $plugin->requires = 2014051200;
 $plugin->component = "repository_intralibrary_upload_ims";
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '1.0';
 
 $plugin->dependencies = array(
-        'repository_intralibrary_upload' => 2015011900
+        'repository_intralibrary_upload' => 2015031102
 );

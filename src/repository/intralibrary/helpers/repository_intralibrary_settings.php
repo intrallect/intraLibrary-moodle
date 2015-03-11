@@ -71,9 +71,6 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
             $mform->setType('sso_user_class', PARAM_RAW);
         }
 
-        $this->add_element($mform, 'kaltura_url', 'text', FALSE);
-        $mform->setType('kaltura_url', PARAM_RAW);
-
         $this->add_select($mform, 'category', array_merge(
                 array(self::get_string('setting_category_select')),
                 repository_intralibrary::data_service()->get_category_sources()
@@ -85,6 +82,9 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
             $mform->addElement('textarea', 'customCQL_query', self::get_string('settings_customCQL_query'), $textareaAttrs);
             $mform->addElement('static', 'customCQL_label', NULL, '<i>' . self::get_string('settings_customCQL_desc') . '</i>');
         }
+
+        $this->add_element($mform, 'kaltura_url', 'text', FALSE);
+        $mform->setType('kaltura_url', PARAM_RAW);
 
         $mform->addElement('header', 'col_header', self::get_string('settings_user_collections'));
 

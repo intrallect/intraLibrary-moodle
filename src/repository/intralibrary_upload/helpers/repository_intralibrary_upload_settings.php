@@ -41,6 +41,8 @@ class repositroy_intralibrary_upload_settings extends abstract_repository_intral
      */
     public function type_config_form($mform) {
 
+        global $USER;
+
         $locations = $this->data_service->get_availabe_locations();
 
         $this->add_select($mform, 'default_deposit_point', $locations);
@@ -49,12 +51,14 @@ class repositroy_intralibrary_upload_settings extends abstract_repository_intral
         // kaltura settings block
         $mform->addElement('header', 'header', "Kaltura ".self::get_string("settings"));
         $kalturaUrl = get_config("intralibrary", "kaltura_url");
+        $settingsUrl = "?action=edit&amp;repos=intralibrary&amp;sesskey={$USER->sesskey}";
 
         if (!$kalturaUrl) {
-            $mform->addElement('static', 'kaltura_url_description', NULL, self::get_string('setting_kaltura_url_hint_1'));
+            $mform->addElement('static', 'kaltura_url_description', NULL, self::get_string('setting_kaltura_url_hint_1', $settingsUrl));
         } else {
             $this->add_element($mform, 'kaltura_enabled', 'checkbox');
-            $mform->addElement('static', 'kaltura_url_description', NULL, self::get_string('setting_kaltura_url_hint_2', $kalturaUrl));
+            $kalturaUrlDescription = self::get_string('setting_kaltura_url_hint_2', array('kurl' => $kalturaUrl, 'surl' => $settingsUrl));
+            $mform->addElement('static', 'kaltura_url_description', NULL, $kalturaUrlDescription);
             if (get_config("intralibrary_upload", "kaltura_enabled") || isset($_POST["kaltura_enabled"])) {
                 $this->add_element($mform, 'kaltura_partner_id', 'text');
                 $mform->setType('kaltura_partner_id', PARAM_RAW);

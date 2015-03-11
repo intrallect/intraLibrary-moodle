@@ -92,10 +92,10 @@ class block_intralibrary extends block_base {
     public function _is_admin() {
         global $USER;
         $admins = get_admins();
-        $isadmin = false;
+        $isadmin = FALSE;
         foreach ($admins as $admin) {
             if ($USER->id == $admin->id) {
-                $isadmin = true;
+                $isadmin = TRUE;
                 break;
             }
         }

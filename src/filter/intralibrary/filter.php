@@ -158,7 +158,7 @@ class filter_intralibrary extends moodle_text_filter {
      *
      * @param unknown $stringId
      */
-    private function _get_string($stringId){
+    private function _get_string($stringId) {
         return get_string($stringId, 'filter_intralibrary');
     }
 

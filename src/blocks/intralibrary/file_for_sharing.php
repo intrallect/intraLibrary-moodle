@@ -25,8 +25,8 @@ $PAGE->set_url(new moodle_url($url));
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title("IntraLibrary File For Sharing");
 $PAGE->set_heading($COURSE->fullname);
-$PAGE->requires->string_for_js('ffs_uploaded','block_intralibrary');
-$PAGE->requires->string_for_js('ffs_upload_other','block_intralibrary');
+$PAGE->requires->string_for_js('ffs_uploaded', 'block_intralibrary');
+$PAGE->requires->string_for_js('ffs_upload_other', 'block_intralibrary');
 
 try {
     // initialise intralibrary upload repositories
@@ -73,7 +73,7 @@ echo html_writer::start_tag('div', array(
 <?php else: ?>
 <div class="mform">
 	<fieldset>
-		<legend><?php echo get_string('ffs_direct_upload', 'block_intralibrary', $repo->name) ;?></legend>
+		<legend><?php echo get_string('ffs_direct_upload', 'block_intralibrary', $repo->name); ?></legend>
 		<div class="file-picker intralibrary-file-for-sharing"
 			id="filepicker-<?php echo $clientId ?>">
 			<div class="fp-upload-form mdl-align intralibrary-upload">

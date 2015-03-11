@@ -37,7 +37,7 @@ class intralibrary_kaltura_helper {
 
     public function __construct($serviceUrl = NULL, $partnerId = NULL) {
         $partnerId = $partnerId ?: get_config(self::PLUGIN_NAME, 'kaltura_partner_id');
-        $serviceUrl = $serviceUrl ?: get_config(self::PLUGIN_NAME, 'kaltura_url');
+        $serviceUrl = $serviceUrl ?: get_config('intralibrary', 'kaltura_url');
 
         $kalConf = new \Kaltura\Client\Configuration($partnerId);
         $kalConf->setServiceUrl($serviceUrl);

@@ -21,8 +21,8 @@
  * from the IntraLibrary repository. The filter must
  * be turned on in order to display Kaltura videos.
  *
- * @package    block_intralibrary
- * @category   block
+ * @package    filter_intralibrary
+ * @category   filter
  * @copyright  2015 Intrallect
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -169,7 +169,7 @@ class filter_intralibrary extends moodle_text_filter {
     private function _get_kaltura_hostname() {
 
         if (empty($this->hostname)) {
-            $url = get_config('intralibrary_upload', 'kaltura_url');
+            $url = get_config('intralibrary', 'kaltura_url');
             $this->hostname = parse_url($url, PHP_URL_HOST);
         }
 

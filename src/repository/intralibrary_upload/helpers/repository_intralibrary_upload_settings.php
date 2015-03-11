@@ -48,14 +48,19 @@ class repositroy_intralibrary_upload_settings extends abstract_repository_intral
 
         // kaltura settings block
         $mform->addElement('header', 'header', "Kaltura ".self::get_string("settings"));
-        $this->add_element($mform, 'kaltura_enabled', 'checkbox');
-        if (get_config("intralibrary_upload", "kaltura_enabled") || isset($_POST["kaltura_enabled"])) {
-            $this->add_element($mform, 'kaltura_url', 'text');
-            $mform->setType('kaltura_url', PARAM_RAW);
-            $this->add_element($mform, 'kaltura_partner_id', 'text');
-            $mform->setType('kaltura_partner_id', PARAM_RAW);
-            $this->add_element($mform, 'kaltura_admin_secret', 'text');
-            $mform->setType('kaltura_admin_secret', PARAM_RAW);
+        $kalturaUrl = get_config("intralibrary", "kaltura_url");
+
+        if (!$kalturaUrl) {
+            $mform->addElement('static', 'kaltura_url_description', NULL, self::get_string('setting_kaltura_url_hint_1'));
+        } else {
+            $this->add_element($mform, 'kaltura_enabled', 'checkbox');
+            $mform->addElement('static', 'kaltura_url_description', NULL, self::get_string('setting_kaltura_url_hint_2', $kalturaUrl));
+            if (get_config("intralibrary_upload", "kaltura_enabled") || isset($_POST["kaltura_enabled"])) {
+                $this->add_element($mform, 'kaltura_partner_id', 'text');
+                $mform->setType('kaltura_partner_id', PARAM_RAW);
+                $this->add_element($mform, 'kaltura_admin_secret', 'text');
+                $mform->setType('kaltura_admin_secret', PARAM_RAW);
+            }
         }
         $mform->closeHeaderBefore('optional1');
 
@@ -103,7 +108,8 @@ class repositroy_intralibrary_upload_settings extends abstract_repository_intral
     public function type_form_validation($mform, $data, $errors) {
 
         if (!empty($data['kaltura_enabled'])) {
-            $serviceUrl     = isset($data['kaltura_url'])           ? $data['kaltura_url'] : NULL;
+            $kalturaUrl = get_config('intralibrary', 'kaltura_url');
+            $serviceUrl     = isset($kalturaUrl)                    ? $kalturaUrl : NULL;
             $partnerId      = isset($data['kaltura_partner_id'])    ? $data['kaltura_partner_id'] : NULL;
             $adminSecret    = isset($data['kaltura_admin_secret'])  ? $data['kaltura_admin_secret'] : NULL;
             $this->_validate_kaltura_settings($serviceUrl, $partnerId, $adminSecret, $errors);
@@ -136,7 +142,7 @@ class repositroy_intralibrary_upload_settings extends abstract_repository_intral
             } else if (stristr($code, 'partner') || stristr($msg, 'partner')) {
                 $key = 'kaltura_partner_id';
             } else {
-                $key = 'kaltura_url';
+                $key = 'kaltura_enabled';
             }
 
             $errors[$key] = $msg;

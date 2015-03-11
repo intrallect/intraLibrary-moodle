@@ -159,7 +159,6 @@ class repository_intralibrary_upload extends abstract_repository_intralibrary {
             unset($value["kaltura_admin_secret"]);
             unset($value["kaltura_enabled"]);
             unset($value["kaltura_partner_id"]);
-            unset($value["kaltura_url"]);
 
             $page->requires->js_init_call('M.repository_intralibrary_upload.set_settings_variables', array(
                      $value ));

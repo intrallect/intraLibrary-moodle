@@ -71,6 +71,9 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
             $mform->setType('sso_user_class', PARAM_RAW);
         }
 
+        $this->add_element($mform, 'kaltura_url', 'text', FALSE);
+        $mform->setType('kaltura_url', PARAM_RAW);
+
         $this->add_select($mform, 'category', array_merge(
                 array(self::get_string('setting_category_select')),
                 repository_intralibrary::data_service()->get_category_sources()
@@ -255,6 +258,7 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
                 'admin_password',
                 'authentication',
                 'token',
+                'kaltura_url',
                 'sso_user_class',
                 'category',
                 'customCQL',

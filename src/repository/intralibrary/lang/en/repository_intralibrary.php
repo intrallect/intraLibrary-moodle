@@ -34,6 +34,7 @@ $string['setting_category'] = 'IntraLibrary Category Source';
 $string['setting_category_select'] = '-- Select One --';
 $string['setting_category_select_missing'] = 'Select a Category Source';
 $string['setting_category_info'] = 'You must configure IntraLibrary before you can select a category';
+$string['setting_kaltura_url'] = 'Kaltura URL';
 $string['setting_authentication'] = 'User Authentication Method';
 $string['settings_user_auth_error'] = 'Please select a User Authentication Method';
 $string['settings_user_auth_open'] = 'Open intraLibrary';

@@ -248,13 +248,20 @@ function intralibrary_get_basic_log_data() {
     return $logData;
 }
 
+function intralibrary_trigger_event($className, $logData) {
+    // safety check for Moodle 2.6+
+    if (class_exists($className)) {
+        call_user_func(array($className, 'create'), $logData)->trigger();
+    }
+}
+
 function intralibrary_add_moodle_log($action, $info) {
     $logData = intralibrary_get_basic_log_data();
     $logData['other'] = array(
         'action' => $action,
         'info' => $info
     );
-    \repository_intralibrary\event\event_logged::create($logData)->trigger();
+    intralibrary_trigger_event('\repository_intralibrary\event\event_logged', $logData);
 }
 
 function intralibrary_log_with_exception($info, $action = 'View', $extype = '') {
@@ -271,7 +278,7 @@ function intralibrary_log_with_exception($info, $action = 'View', $extype = '') 
         $logData['other'] = array(
             'info' => "Error: " . $logTitle,
         );
-        \repository_intralibrary\event\event_logged::create($logData)->trigger();
+        intralibrary_trigger_event('\repository_intralibrary\event\event_logged', $logData);
         throw new moodle_exception($logTitle);
     } else {
         intralibrary_add_moodle_log($action, $info);
@@ -293,5 +300,5 @@ function intralibrary_add_upload_log($title, $url) {
     );
 
     // create event object with log data and trigger event
-    \repository_intralibrary\event\resource_uploaded::create($logData)->trigger();
+    intralibrary_trigger_event('\repository_intralibrary\event\resource_uploaded', $logData);
 }

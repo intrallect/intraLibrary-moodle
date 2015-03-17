@@ -46,36 +46,9 @@ $config = repository_intralibrary_config();
 \IntraLibrary\Configuration::set('timeout',
     isset($CFG->intraLibrary_timeout) ? $CFG->intraLibrary_timeout : 5000);
 
-// Try to use Memcache for caching, then fall back on APC
-/* $memcache = repository_intralibrary_get_memcache();
-if ($memcache) {
-    $memcache_ns = 'moodle/intralibrary/';
-    $cacheLoad = function ($key) use($memcache, $memcache_ns) {
-        return $memcache->get($memcache_ns . $key);
-    };
-    $cacheSave = function ($key, $value, $expires = 0) use($memcache, $memcache_ns) {
-        return $memcache->set($memcache_ns . $key, $value, 0, $expires);
-    };
-} else if (function_exists('apc_fetch') && function_exists('apc_store')) {
-    $cacheLoad = 'apc_fetch';
-    $cacheSave = 'apc_store';
-} else {
-    $cacheLoad = $cacheSave = function () {
-        return FALSE;
-    };
-} */
-$cacheLoad = function ($key) {
-    $cache = cache::make('repository_intralibrary', 'app_cache');
-    return $cache->get($key);
-};
-
-$cacheSave = function ($key, $value, $expires = 0) {
-    $cache = cache::make('repository_intralibrary', 'app_cache');
-    $cache->set($key, $value);
-};
-
-\IntraLibrary\Cache::register('load', $cacheLoad);
-\IntraLibrary\Cache::register('save', $cacheSave);
+$ilCache = cache::make('repository_intralibrary', 'app_cache');
+\IntraLibrary\Cache::register('load', array($ilCache, 'get'));
+\IntraLibrary\Cache::register('save', array($ilCache, 'set'));
 
 \IntraLibrary\Debug::register('log', 'repository_intralibrary_log');
 \IntraLibrary\Debug::register('screen',

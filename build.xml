@@ -70,12 +70,7 @@
 
 		<mkdir dir="${builddirIndividual}" />
 		<echo msg="Building ${plugin} @ ${pluginPath}" />
-		<zip destfile="${builddirIndividual}/${plugin}${archiveSuffix}" prefix="${pluginName}/">
-			<fileset dir="${srcdir}/${pluginPath}">
-				<include name="**/**" />
-				<exclude name="**/swordapp-php-library/examples/**" />
-			</fileset>
-		</zip>
+		<zip destfile="${builddirIndividual}/${plugin}${archiveSuffix}" basedir="${srcdir}/${pluginPath}" prefix="${pluginName}/" />
 	</target>
 
 	<!-- PHP dependency checker -->

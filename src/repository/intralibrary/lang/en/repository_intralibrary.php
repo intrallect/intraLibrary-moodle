@@ -58,3 +58,4 @@ $string['cachedef_accces_cache'] = 'IntraLibrary session cache';
 $string['cachedef_data_cache'] = 'IntraLibrary data cache';
 $string['upload_event_name'] = 'IntraLibrary Upload';
 $string['general_event_name'] = 'IntraLibrary Log';
+$string['cachedef_app_cache'] = 'IntraLibrary API Cache';

@@ -39,8 +39,6 @@ require_once __DIR__ . '/abstract_repository_intralibrary.php';
  */
 class repository_intralibrary extends abstract_repository_intralibrary {
 
-    const NUM_RESULTS = 30;
-
     private static $SETTINGS;
 
     protected static function settings() {
@@ -209,7 +207,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
         $options['accepted_types'] = $this->_get_accepted_types();
         $options['env'] = $this->_get_env();
 
-        $limit = self::NUM_RESULTS;
+        $limit = get_config('intralibrary', 'search_limit');
         $hostname = get_config('intralibrary', 'hostname');
 
         $page = $page ?: 1; // always start on page 1 (why does Moodle default to page 0?)

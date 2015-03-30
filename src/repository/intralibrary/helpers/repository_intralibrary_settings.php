@@ -71,6 +71,9 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
             $mform->setType('sso_user_class', PARAM_RAW);
         }
 
+        $mform->addElement('text', 'search_limit', self::get_string('settings_search_limit'), 'size="5"');
+        $mform->setType('search_limit', PARAM_INT);
+
         $this->add_select($mform, 'category', array_merge(
                 array(self::get_string('setting_category_select')),
                 repository_intralibrary::data_service()->get_category_sources()
@@ -154,6 +157,10 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
 
         if ($data['authentication'] == INTRALIBRARY_AUTH_OPEN_TOKEN && empty($data['token'])) {
             $errors['token'] = self::get_string('settings_user_auth_token_missing');
+        }
+
+        if (empty($data['search_limit']) || !is_numeric($data['search_limit'])) {
+            $errors['search_limit'] = self::get_string('settings_search_limit_invalid');
         }
 
         if ($data['authentication'] == INTRALIBRARY_AUTH_SHARED) {
@@ -274,6 +281,7 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
                 'customCQL_query',
                 'logenabled',
                 'logfile',
+                'search_limit',
                 'optional_field_my_resources',
                 'optional_field_collection',
                 'optional_field_file_type',

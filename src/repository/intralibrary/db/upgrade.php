@@ -47,5 +47,10 @@ function xmldb_repository_intralibrary_upgrade($oldversion) {
         }
     }
 
+    // Set search results limit to 30
+    if ($oldversion < 2015033003 && !get_config('intralibrary', 'search_limit')) {
+        set_config('search_limit', 30, 'intralibrary');
+    }
+
     return TRUE;
 }

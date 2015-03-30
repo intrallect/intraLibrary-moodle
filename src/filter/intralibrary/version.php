@@ -23,5 +23,5 @@ $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '1.0';
 
 $plugin->dependencies = array(
-        'repository_intralibrary' => 2015031102
+        'repository_intralibrary' => 2015033003
 );

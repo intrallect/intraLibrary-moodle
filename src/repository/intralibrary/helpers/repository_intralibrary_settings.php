@@ -95,6 +95,15 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
         $this->add_element($mform, 'logenabled', 'checkbox');
         $this->add_element($mform, 'logfile', 'text');
         $mform->setType('logfile', PARAM_RAW);
+
+        $mform->closeHeaderBefore('optional_field_my_resources');
+        $mform->addElement('header', 'fields_header', self::get_string('settings_enabled_query_fields'));
+        $this->add_element($mform, 'optional_field_my_resources', 'checkbox', FALSE, self::get_string('search_myresources'));
+        $this->add_element($mform, 'optional_field_collection', 'checkbox', FALSE, self::get_string('search_collection'));
+        $this->add_element($mform, 'optional_field_file_type', 'checkbox', FALSE, self::get_string('search_filetype'));
+        $this->add_element($mform, 'optional_field_star_rating', 'checkbox', FALSE, self::get_string('search_starrating'));
+        $this->add_element($mform, 'optional_field_category', 'checkbox', FALSE, self::get_string('search_category'));
+
     }
 
     /**
@@ -264,7 +273,12 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
                 'customCQL',
                 'customCQL_query',
                 'logenabled',
-                'logfile'
+                'logfile',
+                'optional_field_my_resources',
+                'optional_field_collection',
+                'optional_field_file_type',
+                'optional_field_star_rating',
+                'optional_field_category'
         );
     }
 }

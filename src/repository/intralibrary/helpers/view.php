@@ -91,7 +91,7 @@ class repository_intralibrary_view {
 
         $inputs[] = $query;
 
-        if ($auth == INTRALIBRARY_AUTH_SHARED) {
+        if ($auth == INTRALIBRARY_AUTH_SHARED && get_config('intralibrary', 'optional_field_my_resources')) {
             $inputs[] = $this->_create_select('myresources', repository_intralibrary::get_string('search_myresources'),
                     array(
                             'no',
@@ -99,10 +99,12 @@ class repository_intralibrary_view {
                     ), array(), FALSE);
         }
 
-        $inputs[] = $this->_create_select('collection', repository_intralibrary::get_string('search_collection'),
-                array_keys($collections), $collections);
+        if (get_config('intralibrary', 'optional_field_collection')) {
+            $inputs[] = $this->_create_select('collection', repository_intralibrary::get_string('search_collection'),
+                    array_keys($collections), $collections);
+        }
 
-        if ($types == "*") {
+        if ($types == "*" && (get_config('intralibrary', 'optional_field_file_type'))) {
             $inputs[] = $this->_create_select('filetype', repository_intralibrary::get_string('search_filetype'),
                     array(
                             'word',
@@ -111,22 +113,26 @@ class repository_intralibrary_view {
                     ));
         }
 
-        $inputs[] = $this->_create_select('starrating', repository_intralibrary::get_string('search_starrating'),
-                array(
-                        'star4',
-                        'star3',
-                        'star2',
-                        'star1'
-                ));
+        if (get_config('intralibrary', 'optional_field_star_rating')) {
+            $inputs[] = $this->_create_select('starrating', repository_intralibrary::get_string('search_starrating'),
+                    array(
+                            'star4',
+                            'star3',
+                            'star2',
+                            'star1'
+                    ));
 
-        $categories = array();
-        foreach ($this->dataService->get_categories() as $element) {
-            $categories[$element['refId']] = $element['name'];
         }
 
-        $inputs[] = $this->_create_select('category', repository_intralibrary::get_string('search_category'),
-                array_keys($categories), $categories);
+        if (get_config('intralibrary', 'optional_field_category')) {
+            $categories = array();
+            foreach ($this->dataService->get_categories() as $element) {
+                $categories[$element['refId']] = $element['name'];
+            }
 
+            $inputs[] = $this->_create_select('category', repository_intralibrary::get_string('search_category'),
+                    array_keys($categories), $categories);
+        }
         return $inputs;
     }
 }

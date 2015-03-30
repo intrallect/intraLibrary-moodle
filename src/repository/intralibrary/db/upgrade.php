@@ -28,12 +28,24 @@ defined('MOODLE_INTERNAL') || die();
 
 function xmldb_repository_intralibrary_upgrade($oldversion) {
 
-    if ($oldversion <= 2015031101) {
+    // Kaltura url config moved to main plugin
+    if ($oldversion < 2015031102) {
         $kalturaUrl = get_config('intralibrary_upload', 'kaltura_url');
         if ($kalturaUrl) {
             set_config('kaltura_url', $kalturaUrl, 'intralibrary');
         }
     }
 
-    return true;
+    // Optional search fields, enable all by default
+    if ($oldversion < 2015033002) {
+        $values = array('my_resources', 'collection', 'file_type', 'star_rating', 'category');
+        foreach ($values as $value) {
+            $settingsKey = 'optional_field_' . $value;
+            if (!get_config('intralibrary', $settingsKey)) {
+                set_config($settingsKey, 1, 'intralibrary');
+            }
+        }
+    }
+
+    return TRUE;
 }

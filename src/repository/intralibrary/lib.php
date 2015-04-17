@@ -170,7 +170,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
      *
      * @param string $text
      */
-    public function search($search_text, $page = 0) {
+    public function search($search_text, $page = 0, $order = null) {
         global $SESSION;
 
         if (!$page || $page == 1) {
@@ -188,7 +188,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
 
         try {
             $options = $SESSION->intralibrary_search_parameters;
-            return $this->_get_listings($options, $page);
+            return $this->_get_listings($options, $page, $order);
         } catch (Exception $ex) {
             $form = $this->print_login();
             $form['error_message'] = $ex->getMessage();
@@ -196,7 +196,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
         }
     }
 
-    private function _get_listings($options, $page) {
+    private function _get_listings($options, $page, $order) {
         require_once __DIR__ . '/helpers/intralibrary_list_item.php';
 
         if (empty($options['searchterm'])) {
@@ -217,7 +217,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
         $service = self::factory()->build_intralibrary_service($options);
 
         // request all records and iterate through them to build list items
-        $response = $service->get_records($options, $limit, $start);
+        $response = $service->get_records($options, $limit, $start, $order);
 
         if ($error = $response->getError()) {
             throw new Exception($error);
@@ -229,6 +229,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
                 'norefresh' => TRUE,
                 'list' => array(),
                 'page' => $page,
+                'order' => $order,
                 'pages' => $limit ? ceil($response->getTotalRecords() / $limit) : 0,
                 'parameters' => $options
         );

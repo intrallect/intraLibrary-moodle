@@ -101,7 +101,8 @@ class intralibrary_list_item extends ArrayObject {
                 'source' => self::create_source_from_object($record),
                 'type' => $type,
                 'url' => $record->get('preview'),
-                'author' => $this->_getAuthors($record->get('author'))
+                'author' => $this->_getAuthors($record->get('author')),
+                'packageId' => $record->get('packageId')
         );
 
         if ($size = trim($record->get('size'))) {

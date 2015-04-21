@@ -102,7 +102,8 @@ class intralibrary_list_item extends ArrayObject {
                 'type' => $type,
                 'url' => $record->get('preview'),
                 'author' => $this->_getAuthors($record->get('author')),
-                'packageId' => $record->get('packageId')
+                'packageId' => $record->get('packageId'),
+                'classifications' =>  $record->get('classifications')
         );
 
         if ($size = trim($record->get('size'))) {

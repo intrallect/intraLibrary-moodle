@@ -89,7 +89,7 @@ abstract class abstract_intralibrary_service {
             $query .= " ". $this->customCQL;
         }
 
-        return $query;
+        return ltrim($query, " AND");
     }
 
     /**
@@ -109,6 +109,10 @@ abstract class abstract_intralibrary_service {
      *
      */
     private function _process_search_term($searchterm) {
+        if (empty($searchterm)) {
+            return '';
+        }
+
         // XXX [Janek 13/11/12]: This if statement should be removed
         // once intralibrary is updated to convert spaces to ANDs
         // (vs. ORs, as it currently does)
@@ -122,7 +126,6 @@ abstract class abstract_intralibrary_service {
 
         return '"' . addslashes($searchterm) . '"';
     }
-
 
     /**
      * Add a star rating constraint

@@ -45,7 +45,7 @@ abstract class abstract_intralibrary_service {
      * @throws Exception
      * @return \IntraLibrary\Service\SRWResponse
      */
-    public function get_records($options, $limit = 100, $startRecord = 1, $order = null) {
+    public function get_records($options, $limit = 100, $startRecord = 1, $order = NULL) {
 
         $srwResp = new \IntraLibrary\Service\SRWResponse('lom');
         $request = $this->create_request($srwResp);

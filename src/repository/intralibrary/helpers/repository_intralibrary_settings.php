@@ -115,7 +115,6 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
             ), TRUE);
         }
 
-
         $this->add_element($mform, 'optional_field_category', 'checkbox', FALSE, self::get_string('search_category'));
 
     }

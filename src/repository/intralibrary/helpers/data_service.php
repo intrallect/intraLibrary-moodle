@@ -253,7 +253,7 @@ class repository_intralibrary_data_service {
 
         $key = 'vocabularies';
         $vocabularies = Cache::load($key);
-        if ($vocabularies !== false) {
+        if ($vocabularies !== FALSE) {
             return $vocabularies;
         }
 
@@ -284,7 +284,7 @@ class repository_intralibrary_data_service {
 
         $key = 'resource_types_vocabulary_' . $vocabId;
         $cached = Cache::load($key);
-        if ($cached !== false) {
+        if ($cached !== FALSE) {
             return $cached;
         }
 

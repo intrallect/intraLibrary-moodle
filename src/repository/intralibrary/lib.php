@@ -170,7 +170,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
      *
      * @param string $text
      */
-    public function search($search_text, $page = 0, $order = null) {
+    public function search($search_text, $page = 0, $order = NULL) {
         global $SESSION;
 
         if (!$page || $page == 1) {

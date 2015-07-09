@@ -91,7 +91,7 @@ class repository_intralibrary_view {
 
         $inputs[] = $query;
 
-        if ($auth == INTRALIBRARY_AUTH_SHARED && get_config('intralibrary', 'optional_field_my_resources')) {
+        if ($auth == INTRALIBRARY_AUTH_SHARED && $this->_field_enabled('my_resources')) {
             $inputs[] = $this->_create_select('myresources', repository_intralibrary::get_string('search_myresources'),
                     array(
                             'no',
@@ -99,12 +99,12 @@ class repository_intralibrary_view {
                     ), array(), FALSE);
         }
 
-        if (get_config('intralibrary', 'optional_field_collection')) {
+        if ($this->_field_enabled('collection')) {
             $inputs[] = $this->_create_select('collection', repository_intralibrary::get_string('search_collection'),
                     array_keys($collections), $collections);
         }
 
-        if ($types == "*" && (get_config('intralibrary', 'optional_field_file_type'))) {
+        if ($types == "*" && ($this->_field_enabled('file_type'))) {
             $inputs[] = $this->_create_select('filetype', repository_intralibrary::get_string('search_filetype'),
                     array(
                             'word',
@@ -113,7 +113,7 @@ class repository_intralibrary_view {
                     ));
         }
 
-        if (get_config('intralibrary', 'optional_field_star_rating')) {
+        if ($this->_field_enabled('star_rating')) {
             $inputs[] = $this->_create_select('starrating', repository_intralibrary::get_string('search_starrating'),
                     array(
                             'star4',
@@ -121,10 +121,15 @@ class repository_intralibrary_view {
                             'star2',
                             'star1'
                     ));
-
         }
 
-        if (get_config('intralibrary', 'optional_field_category')) {
+        if ($this->_field_enabled('resource_type')) {
+            $resource_types = $this->dataService->get_resource_types();
+            $inputs[] = $this->_create_select('resourcetype', repository_intralibrary::get_string('search_resourcetype'),
+                    $resource_types, array_combine($resource_types, $resource_types));
+        }
+
+        if ($this->_field_enabled('category')) {
             $categories = array();
             foreach ($this->dataService->get_categories() as $element) {
                 $categories[$element['refId']] = $element['name'];
@@ -134,5 +139,9 @@ class repository_intralibrary_view {
                     array_keys($categories), $categories);
         }
         return $inputs;
+    }
+
+    private function _field_enabled($name) {
+        return get_config('intralibrary', "optional_field_$name");
     }
 }

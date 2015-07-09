@@ -26,6 +26,8 @@
  */
 use IntraLibrary\LibraryObject\TaxonomyData;
 use IntraLibrary\Configuration;
+use IntraLibrary\Cache;
+use IntraLibrary\Service\RESTRequest;
 
 class repository_intralibrary_data_service {
 
@@ -245,5 +247,60 @@ class repository_intralibrary_data_service {
         }
 
         return $depositItems;
+    }
+
+    public function get_all_vocabularies() {
+
+        $key = 'vocabularies';
+        $vocabularies = Cache::load($key);
+        if ($vocabularies !== false) {
+            return $vocabularies;
+        }
+
+        $vocabularies = array();
+
+        $req = new RESTRequest();
+        $data = $req->get('Vocabulary/list')->getData();
+
+        foreach ($data['vocabularies']['vocabulary'] as $vocab) {
+            $vocabularies[$vocab['id']] = $vocab['name'];
+        }
+
+        Cache::save($key, $vocabularies);
+
+        return $vocabularies;
+    }
+
+    /**
+     * Get all resource types
+     * @return mixed
+     */
+    public function get_resource_types() {
+
+        $vocabId = get_config('intralibrary', 'resource_type_vocabulary_id');
+        if (!$vocabId) {
+            return array();
+        }
+
+        $key = 'resource_types_vocabulary_' . $vocabId;
+        $cached = Cache::load($key);
+        if ($cached !== false) {
+            return $cached;
+        }
+
+        $req = new RESTRequest();
+        $data = $req->get('Vocabulary/show/' . $vocabId)->getData();
+
+        $resource_types = array();
+
+        foreach ($data['vocabulary']['vocabularyEntries']['vocabularyEntry'] as $entry) {
+            if (is_string($entry['value'])) {
+                $resource_types[] = $entry['value'];
+            }
+        }
+
+        Cache::save($key, $resource_types);
+
+        return $resource_types;
     }
 }

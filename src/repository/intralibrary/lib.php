@@ -182,6 +182,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
                     'collection' => optional_param('collection', NULL, PARAM_RAW),
                     'filetype' => optional_param('filetype', NULL, PARAM_RAW),
                     'starrating' => optional_param('starrating', NULL, PARAM_RAW),
+                    'resourcetype' => optional_param('resourcetype', NULL, PARAM_RAW),
                     'category' => optional_param('category', NULL, PARAM_RAW)
             );
         }

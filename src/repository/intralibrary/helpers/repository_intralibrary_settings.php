@@ -105,6 +105,17 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
         $this->add_element($mform, 'optional_field_collection', 'checkbox', FALSE, self::get_string('search_collection'));
         $this->add_element($mform, 'optional_field_file_type', 'checkbox', FALSE, self::get_string('search_filetype'));
         $this->add_element($mform, 'optional_field_star_rating', 'checkbox', FALSE, self::get_string('search_starrating'));
+
+        $this->add_element($mform, 'optional_field_resource_type', 'checkbox', FALSE, self::get_string('search_resourcetype'));
+        if (get_config('intralibrary', 'optional_field_resource_type') || isset($_POST['optional_field_resource_type'])) {
+            $vocabularies = repository_intralibrary::data_service()->get_all_vocabularies();
+            $this->add_select($mform, 'resource_type_vocabulary_id', array_merge(
+                    array(self::get_string('setting_resource_type_vocabulary_select')),
+                    $vocabularies
+            ), TRUE);
+        }
+
+
         $this->add_element($mform, 'optional_field_category', 'checkbox', FALSE, self::get_string('search_category'));
 
     }
@@ -286,6 +297,8 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
                 'optional_field_collection',
                 'optional_field_file_type',
                 'optional_field_star_rating',
+                'optional_field_resource_type',
+                'resource_type_vocabulary_id',
                 'optional_field_category'
         );
     }

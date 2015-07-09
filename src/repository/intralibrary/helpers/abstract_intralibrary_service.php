@@ -71,7 +71,7 @@ abstract class abstract_intralibrary_service {
 
     protected function build_query($options) {
 
-        $searchterm = $collection = $filetype = $starrating = $category = $accepted_types = $env = '';
+        $searchterm = $collection = $filetype = $starrating = $category = $resourcetype = $accepted_types = $env = '';
         extract($options);
 
         // XSearch query begins with a search term
@@ -83,6 +83,7 @@ abstract class abstract_intralibrary_service {
         $query .= $this->_build_filetype_constraint($filetype);
         $query .= $this->_build_category_constraint($category);
         $query .= $this->_build_accepted_types_constraint($accepted_types);
+        $query .= $this->_build_resource_type_constraint($resourcetype);
         $query .= $this->_build_env_constraint($env);
 
         if ($this->customCQL) {
@@ -274,6 +275,14 @@ abstract class abstract_intralibrary_service {
             default :
                 return '';
         }
+    }
+
+    private function _build_resource_type_constraint($resourcetype) {
+        if ($resourcetype) {
+            return " AND lom.educational_learningResourceType=\"$resourcetype\"";
+        }
+
+        return '';
     }
 
     /**

@@ -231,6 +231,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
                 'list' => array(),
                 'page' => $page,
                 'order' => $order,
+                'totalRecords' => $response->getTotalRecords(),
                 'pages' => $limit ? ceil($response->getTotalRecords() / $limit) : 0,
                 'parameters' => $options
         );

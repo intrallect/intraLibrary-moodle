@@ -74,7 +74,7 @@ class repository_intralibrary_auth extends repository_intralibrary_auth_base {
      *
      * @return string
      */
-    public function get_intralibrary_username($user = null) {
+    public function get_intralibrary_username($user = NULL) {
         global $USER;
 
         if (is_null($user)) {
@@ -117,7 +117,7 @@ class repository_intralibrary_auth extends repository_intralibrary_auth_base {
      * @throws Exception
      * @return repository_intralibrary_sso_user
      */
-    public function get_sso_user($user = null) {
+    public function get_sso_user($user = NULL) {
 
         if (!isset($this->sso_user)) {
 

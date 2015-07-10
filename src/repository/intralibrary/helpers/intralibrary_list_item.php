@@ -35,7 +35,7 @@ class intralibrary_list_item extends ArrayObject {
      * @param \IntraLibrary\LibraryObject\Record $record
      * @return string
      */
-    public static function create_source_from_object(\IntraLibrary\LibraryObject\Record $record) {
+    public static function create_source_from_object(Record $record) {
         $send_url = NULL;
         switch ($record->get('intralibraryType')) {
             case 'kaltura' :
@@ -45,13 +45,58 @@ class intralibrary_list_item extends ArrayObject {
             case 'imscp' :
             case 'scorm1.2' :
             case 'scorm2004' :
-                $url = $record->get('download') . '&manifest_type=original';
+                $url = self::get_download_url($record);
                 break;
             default :
-                $url = $record->get('preview');
+                $url = self::get_preview_url($record);
         }
 
         return self::create_source($record->getId(), $record->get('title'), $url, $send_url);
+    }
+
+    /**
+     * Get a preview URL for a record
+     *
+     * @param \IntraLibrary\LibraryObject\Record $record
+     */
+    public static function get_preview_url(Record $record) {
+        return self::_is_shared_auth() ?
+            self::_get_hostname() . 'IntraLibrary?command=preview&learning_object_id=' . $record->get('packageId') :
+            $record->get('preview');
+    }
+
+    /**
+     * Get a download URL for a record
+     *
+     * @param \IntraLibrary\LibraryObject\Record $record
+     */
+    public static function get_download_url(Record $record) {
+        return self::_is_shared_auth() ?
+            self::_get_hostname() . 'IntraLibrary?command=smart-export&learning_object_id=' . $record->get('packageId') :
+            $record->get('download') . '&manifest_type=original';
+    }
+
+    private static function _is_shared_auth() {
+
+        static $is_shared_auth;
+
+        if (!isset($is_shared_auth)) {
+            $auth = repository_intralibrary::auth();
+            $is_shared_auth = $auth->is(INTRALIBRARY_AUTH_SHARED);
+        }
+
+        return $is_shared_auth;
+    }
+
+    private static function _get_hostname() {
+
+        static $hostname;
+
+        if (!isset($hostname)) {
+            $hostname = get_config('intralibrary', 'hostname');
+        }
+
+        return $hostname;
     }
 
     /**
@@ -69,7 +114,7 @@ class intralibrary_list_item extends ArrayObject {
         return serialize(compact("id", "title", "url", "send_url"));
     }
 
-    public function __construct(\IntraLibrary\LibraryObject\Record $record) {
+    public function __construct(Record $record) {
         global $OUTPUT;
 
         $type = $record->get('intralibraryType');
@@ -100,7 +145,8 @@ class intralibrary_list_item extends ArrayObject {
                 'fileext' => $fileExt,
                 'source' => self::create_source_from_object($record),
                 'type' => $type,
-                'url' => $record->get('preview'),
+                'url' => self::get_preview_url($record),
+                'downloadUrl' => self::get_download_url($record),
                 'author' => $this->_getAuthors($record->get('author')),
                 'packageId' => $record->get('packageId'),
                 'classifications' =>  $record->get('classifications')

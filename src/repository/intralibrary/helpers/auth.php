@@ -74,12 +74,16 @@ class repository_intralibrary_auth extends repository_intralibrary_auth_base {
      *
      * @return string
      */
-    public function get_intralibrary_username() {
+    public function get_intralibrary_username($user = null) {
         global $USER;
 
-        if (!isset($USER->intralibrary_username)) {
+        if (is_null($user)) {
+            $user = $USER;
+        }
 
-            $ssoUser = $this->get_sso_user();
+        if (!isset($user->intralibrary_username)) {
+
+            $ssoUser = $this->get_sso_user($user);
 
             $req = new \IntraLibrary\Service\RESTRequest();
             $resp = $req->adminGet('User/createBcuUser',
@@ -101,10 +105,10 @@ class repository_intralibrary_auth extends repository_intralibrary_auth_base {
                 throw new Exception("Unable to retrieve IntraLibrary username");
             }
 
-            $USER->intralibrary_username = $ssoUser->get_username();
+            $user->intralibrary_username = $ssoUser->get_username();
         }
 
-        return $USER->intralibrary_username;
+        return $user->intralibrary_username;
     }
 
     /**
@@ -113,7 +117,7 @@ class repository_intralibrary_auth extends repository_intralibrary_auth_base {
      * @throws Exception
      * @return repository_intralibrary_sso_user
      */
-    public function get_sso_user() {
+    public function get_sso_user($user = null) {
 
         if (!isset($this->sso_user)) {
 
@@ -121,7 +125,7 @@ class repository_intralibrary_auth extends repository_intralibrary_auth_base {
             $this->validate_sso_user($filename);
 
             $class_name = $this->get_sso_user_class_name($filename);
-            $this->sso_user = new $class_name();
+            $this->sso_user = new $class_name($user);
         }
 
         return $this->sso_user;

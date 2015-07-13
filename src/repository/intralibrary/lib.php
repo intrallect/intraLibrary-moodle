@@ -27,6 +27,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 use \IntraLibrary\Configuration;
+use IntraLibrary\Service\RESTRequest;
+use IntraLibrary\Service\CURLFileSaveHandler;
+use IntraLibrary\Service\RESTFileResponse;
 
 // load helpers
 require_once __DIR__ . '/helpers/view.php';
@@ -148,17 +151,16 @@ class repository_intralibrary extends abstract_repository_intralibrary {
      */
     public function print_login() {
 
-        $authentication     = get_config('intralibrary', 'authentication');
         $collections        = self::data_service()->get_available_collections();
         $filetypes          = $this->_get_accepted_types();
 
         $form = array(
-            'login' => $this->view_helper->get_search_inputs($filetypes, $authentication , $collections),
+            'login' => $this->view_helper->get_search_inputs($filetypes , $collections),
             'login_btn_label' => get_string('search'),
             'login_btn_action' => 'search'
         );
 
-        if ($authentication == INTRALIBRARY_AUTH_SHARED) {
+        if (self::is_shared_auth()) {
             $form['intralibrary_url'] = get_config('intralibrary', 'hostname');
         }
 
@@ -235,7 +237,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
                 'pages' => $limit ? ceil($response->getTotalRecords() / $limit) : 0,
                 'parameters' => $options
         );
-        if (get_config("intralibrary", "authentication") == INTRALIBRARY_AUTH_SHARED) {
+        if (self::is_shared_auth()) {
             $listing["manage"] = rtrim($hostname, '/') . '/_search.jsp?search_phrase=' . $options['searchterm'];
         }
 
@@ -265,9 +267,18 @@ class repository_intralibrary extends abstract_repository_intralibrary {
                 }
                 $link = $array['url'];
             } else if (optional_param('get_original_filename', FALSE, PARAM_RAW)) {
-                $link = $this->_get_repository_filename($array['url']);
+                if (self::is_shared_auth()) {
+                    $link = $this->_get_repository_filename_from_id($array['id']);
+                }
+                if (!$link) {
+                    $link = $this->_get_repository_filename($array['url']);
+                }
             } else {
-                $link = $this->_get_redirected_url($array['url']);
+                if (self::is_shared_auth()) {
+                    $link = $array['url'];
+                } else {
+                    $link = $this->_get_redirected_url($array['url']);
+                }
             }
         }
 
@@ -280,7 +291,27 @@ class repository_intralibrary extends abstract_repository_intralibrary {
      * @see repository::get_file()
      */
     public function get_file($source, $filename = '') {
-        return parent::get_file($this->get_link($source), $filename);
+
+        if (self::is_shared_auth()) {
+
+            $array = @unserialize($source);
+
+            $path = $this->prepare_file($filename);
+
+            $req = new RESTRequest(new RESTFileResponse());
+            $req->setCurlHandler(new CURLFileSaveHandler($path));
+            $resp = $req->adminGet("LearningObject/smartExport/{$array['id']}");
+
+            $error = $resp->getError();
+            if ($error) {
+                throw new moodle_exception('errorwhiledownload', 'repository', '', $error);
+            }
+
+            return array('path' => $path, 'url' => $req->getLastRequestUrl());
+
+        } else {
+            return parent::get_file($this->get_link($source), $filename);
+        }
     }
 
     /**

@@ -26,6 +26,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use IntraLibrary\Service\RESTRequest;
+
 // initialise the intralibrary moodle plugin
 require_once __DIR__ . '/init.php';
 
@@ -136,6 +138,20 @@ abstract class abstract_repository_intralibrary extends repository {
             );
         }
         return self::$_DATA_SERVICE;
+    }
+
+    /**
+     * @return true if plugin is configured with shared authentication
+     */
+    public static function is_shared_auth() {
+        static $is_shared_auth;
+
+        if (!isset($is_shared_auth)) {
+            $auth = self::auth();
+            $is_shared_auth = $auth->is(INTRALIBRARY_AUTH_SHARED);
+        }
+
+        return $is_shared_auth;
     }
 
     /**
@@ -267,6 +283,19 @@ abstract class abstract_repository_intralibrary extends repository {
         }
 
         return basename(parse_url($url, PHP_URL_PATH));
+    }
+
+    /**
+     * Get the filename from a resource id
+     * @param unknown $id
+     */
+    protected function _get_repository_filename_from_id($id) {
+        $req = new RESTRequest();
+        $data = $req->get("LearningObject/show/$id")->getData();
+
+        return isset($data['learningObject']) && isset($data['learningObject']['fileName']) ?
+            $data['learningObject']['fileName'] :
+            null;
     }
 
     /**

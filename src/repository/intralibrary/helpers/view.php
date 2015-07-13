@@ -79,7 +79,7 @@ class repository_intralibrary_view {
     /**
      * Get an array of search input objects
      */
-    public function get_search_inputs($types, $auth, $collections) {
+    public function get_search_inputs($types, $collections) {
         $inputs = array();
 
         $query = new stdClass();
@@ -91,7 +91,7 @@ class repository_intralibrary_view {
 
         $inputs[] = $query;
 
-        if ($auth == INTRALIBRARY_AUTH_SHARED && $this->_field_enabled('my_resources')) {
+        if (repository_intralibrary::is_shared_auth() && $this->_field_enabled('my_resources')) {
             $inputs[] = $this->_create_select('myresources', repository_intralibrary::get_string('search_myresources'),
                     array(
                             'no',

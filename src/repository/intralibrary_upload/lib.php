@@ -105,7 +105,7 @@ class repository_intralibrary_upload extends abstract_repository_intralibrary {
         global $PAGE;
         parent::__construct($repositoryid, $context, $options, $readonly);
 
-        $isSharedAuthStaff = $this->auth()->is(INTRALIBRARY_AUTH_SHARED) && $this->auth()->is_staff();
+        $isSharedAuthStaff = self::is_shared_auth() && $this->auth()->is_staff();
         $hasCapability = has_capability('mod/resource:addinstance', $PAGE->context);
 
         if (!$isSharedAuthStaff && !$hasCapability) {

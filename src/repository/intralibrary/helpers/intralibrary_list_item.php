@@ -60,7 +60,7 @@ class intralibrary_list_item extends ArrayObject {
      * @param \IntraLibrary\LibraryObject\Record $record
      */
     public static function get_preview_url(Record $record) {
-        return self::_is_shared_auth() ?
+        return repository_intralibrary::is_shared_auth() ?
             self::_get_hostname() . 'IntraLibrary?command=preview&learning_object_id=' . $record->get('packageId') :
             $record->get('preview');
     }
@@ -71,21 +71,9 @@ class intralibrary_list_item extends ArrayObject {
      * @param \IntraLibrary\LibraryObject\Record $record
      */
     public static function get_download_url(Record $record) {
-        return self::_is_shared_auth() ?
+        return repository_intralibrary::is_shared_auth() ?
             self::_get_hostname() . 'IntraLibrary?command=smart-export&learning_object_id=' . $record->get('packageId') :
             $record->get('download') . '&manifest_type=original';
-    }
-
-    private static function _is_shared_auth() {
-
-        static $is_shared_auth;
-
-        if (!isset($is_shared_auth)) {
-            $auth = repository_intralibrary::auth();
-            $is_shared_auth = $auth->is(INTRALIBRARY_AUTH_SHARED);
-        }
-
-        return $is_shared_auth;
     }
 
     private static function _get_hostname() {

@@ -46,6 +46,7 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
 
         $currAuth = get_config('intralibrary', 'authentication');
         $postAuth = isset($_POST['authentication']) ? $_POST['authentication'] : NULL;
+        $sharedAuthSettings = $postAuth == INTRALIBRARY_AUTH_SHARED || (!$postAuth && $currAuth == INTRALIBRARY_AUTH_SHARED);
 
         $this->add_element($mform, 'hostname', 'text', TRUE);
         $mform->setType('hostname', PARAM_RAW);
@@ -66,7 +67,7 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
             $mform->setType('token', PARAM_RAW);
         }
 
-        if ($postAuth == INTRALIBRARY_AUTH_SHARED || (!$postAuth && $currAuth == INTRALIBRARY_AUTH_SHARED)) {
+        if ($sharedAuthSettings) {
             $mform->addElement('text', 'sso_user_class', self::get_string('settings_user_auth_shared_class'), 'size="40"');
             $mform->setType('sso_user_class', PARAM_RAW);
         }
@@ -89,9 +90,10 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
         $this->add_element($mform, 'kaltura_url', 'text', FALSE);
         $mform->setType('kaltura_url', PARAM_RAW);
 
-        $mform->addElement('header', 'col_header', self::get_string('settings_user_collections'));
-
-        $this->add_collections($mform);
+        if (!$sharedAuthSettings) {
+            $mform->addElement('header', 'col_header', self::get_string('settings_user_collections'));
+            $this->add_collections($mform);
+        }
 
         $mform->closeHeaderBefore('logenabled');
 
@@ -217,17 +219,23 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
      */
     private function type_form_additional_validation($mform, $data, $errors) {
 
-        $collections = array();
-        foreach ($data as $key => $value) {
-            if (strpos($key, 'col_') === 0 && $value === "1") {
-                $collections[] = substr($key, 4); // Strip out 'col_'
-            }
-        }
+        $currAuth = get_config('intralibrary', 'authentication');
+        $postAuth = isset($_POST['authentication']) ? $_POST['authentication'] : NULL;
+        $sharedAuthSettings = $postAuth == INTRALIBRARY_AUTH_SHARED || (!$postAuth && $currAuth == INTRALIBRARY_AUTH_SHARED);
 
-        if (empty($collections)) {
-            $errors["col_error"] = self::get_string('settings_user_collections_error');
-        } else {
-            set_config('enabled_collections', implode(',', $collections), 'intralibrary');
+        if (!$sharedAuthSettings) {
+            $collections = array();
+            foreach ($data as $key => $value) {
+                if (strpos($key, 'col_') === 0 && $value === "1") {
+                    $collections[] = substr($key, 4); // Strip out 'col_'
+                }
+            }
+
+            if (empty($collections)) {
+                $errors["col_error"] = self::get_string('settings_user_collections_error');
+            } else {
+                set_config('enabled_collections', implode(',', $collections), 'intralibrary');
+            }
         }
 
         //Custom CQL validation

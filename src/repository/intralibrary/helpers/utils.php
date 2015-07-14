@@ -35,6 +35,29 @@ function repository_intralibrary_config() {
     return $config;
 }
 
+function repository_intralibrary_do_with_user(repository_intralibrary_sso_user $sso_user, $callable) {
+
+    if (!is_callable($callable)) {
+        throw new Exception("Must pass a callable");
+    }
+
+    $config = repository_intralibrary_config();
+    $username = $config->username;
+    $password = $config->password;
+
+    IntraLibrary\Configuration::set('username', $sso_user->get_username());
+    IntraLibrary\Configuration::set('password', $sso_user->get_password());
+
+    try {
+        $result = $callable();
+    } finally {
+        IntraLibrary\Configuration::set('username', $username);
+        IntraLibrary\Configuration::set('password', $password);
+    }
+
+    return $result;
+}
+
 /**
  * Get a memcache object, if it is available
  *

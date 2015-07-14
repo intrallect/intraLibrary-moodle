@@ -151,7 +151,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
      */
     public function print_login() {
 
-        $collections        = self::data_service()->get_available_collections();
+        $collections        = self::data_service()->get_collections_for_filter();
         $filetypes          = $this->_get_accepted_types();
 
         $form = array(

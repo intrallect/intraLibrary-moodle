@@ -204,6 +204,12 @@ abstract class abstract_intralibrary_service {
         if ($collection != '') {
             return ' AND rec.collectionIdentifier="' . $collection . '"';
         } else {
+
+            if (repository_intralibrary::auth()->is(INTRALIBRARY_AUTH_SHARED)) {
+                // XSearch will handle access control
+                return '';
+            }
+
             $collections = repository_intralibrary::data_service()->get_available_collections();
             if (empty($collections)) {
                 throw new moodle_exception('repository_intralibrary', 'settings_user_collections_error');

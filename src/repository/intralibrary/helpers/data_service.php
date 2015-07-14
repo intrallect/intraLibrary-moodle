@@ -174,7 +174,7 @@ class repository_intralibrary_data_service {
         return $categories;
     }
 
-    public function get_all_collections() {
+    public function get_all_collections($asAdmin = TRUE) {
         $collections = array();
         try {
 
@@ -186,7 +186,7 @@ class repository_intralibrary_data_service {
             }
 
             $collectionProvider = new \IntraLibrary\LibraryObject\CollectionData();
-            $collections = $collectionProvider->getAvailableCollections(TRUE, $useCached);
+            $collections = $collectionProvider->getAvailableCollections($asAdmin, $useCached);
 
         } catch (Exception $ex) {
             $message = "Unable to get collections: " . $ex->getMessage();
@@ -218,6 +218,19 @@ class repository_intralibrary_data_service {
         }
 
         return $enabled_collections;
+    }
+
+    public function get_collections_for_filter() {
+        if (repository_intralibrary::auth()->is(INTRALIBRARY_AUTH_SHARED)) {
+
+            $user = repository_intralibrary::auth()->get_sso_user();
+            return repository_intralibrary_do_with_user($user, function() {
+                return $this->get_all_collections(FALSE);
+            });
+
+        } else {
+            return $this->get_available_collections();
+        }
     }
 
     private function _is_updating_settings() {

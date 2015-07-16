@@ -327,7 +327,10 @@ abstract class abstract_repository_intralibrary extends repository {
             header('Location: ' . $array['send_url']);
             exit();
         } else if (!empty($array['url'])) {
-            header('Location: ' . $this->_get_redirected_url($array['url']));
+            if (!self::is_shared_auth()) {
+                $array['url'] = $this->_get_redirected_url($array['url']);
+            }
+            header('Location: ' . $array['url']);
             exit();
         } else {
             throw new Exception('Unable to send this file -- missing url data');

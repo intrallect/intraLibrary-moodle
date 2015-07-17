@@ -51,13 +51,13 @@ abstract class abstract_repository_intralibrary_settings {
     }
 
     /**
-     * @var repository_intralibrary_data_service
+     * @var repository_intralibrary\data_service
      */
     protected $data_service;
 
     protected $isEditing = FALSE;
 
-    public function __construct(repository_intralibrary_data_service $data) {
+    public function __construct(repository_intralibrary\data_service $data) {
 
         $this->data_service = $data;
 

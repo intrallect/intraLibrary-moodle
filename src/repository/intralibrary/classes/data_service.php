@@ -24,15 +24,18 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
+namespace repository_intralibrary;
+
 use IntraLibrary\LibraryObject\TaxonomyData;
+use IntraLibrary\LibraryObject\CollectionData;
 use IntraLibrary\Configuration;
 use IntraLibrary\Cache;
 use IntraLibrary\Service\RESTRequest;
 
-class repository_intralibrary_data_service {
+class data_service {
 
     /**
-     * @var TaxonomyData
+     * @var IntraLibrary\LibraryObject\TaxonomyData
      */
     private $tProvider;
 
@@ -83,7 +86,7 @@ class repository_intralibrary_data_service {
 
         try {
             $taxonomy = $this->tProvider->retrieveBySource($this->catTaxonomySource);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             $this->logger->log("Unable to fetch Taxonomy data: " . $ex->getMessage());
             return array();
         }
@@ -160,13 +163,13 @@ class repository_intralibrary_data_service {
                 $useCached = FALSE;
             }
 
-            $tProvider = new \IntraLibrary\LibraryObject\TaxonomyData();
+            $tProvider = new TaxonomyData();
             foreach ($tProvider->getAvailableTaxonomies(TRUE, $useCached) as $taxonomyId) {
                 if ($taxonomy = $tProvider->retrieveById($taxonomyId, 'taxonomy')) {
                     $categories[$taxonomy->getSource()] = $taxonomy->getName();
                 }
             }
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             intralibrary_add_moodle_log("update", $ex->getMessage());
             $this->logger->log($ex->getMessage());
         }
@@ -185,7 +188,7 @@ class repository_intralibrary_data_service {
                 $useCached = FALSE;
             }
 
-            $collectionProvider = new \IntraLibrary\LibraryObject\CollectionData();
+            $collectionProvider = new CollectionData();
             $collections = $collectionProvider->getAvailableCollections($asAdmin, $useCached);
 
         } catch (Exception $ex) {
@@ -221,9 +224,9 @@ class repository_intralibrary_data_service {
     }
 
     public function get_collections_for_filter() {
-        if (repository_intralibrary::auth()->is(INTRALIBRARY_AUTH_SHARED)) {
+        if (\repository_intralibrary::auth()->is(INTRALIBRARY_AUTH_SHARED)) {
 
-            $user = repository_intralibrary::auth()->get_sso_user();
+            $user = \repository_intralibrary::auth()->get_sso_user();
             return repository_intralibrary_do_with_user($user, function() {
                 return $this->get_all_collections(FALSE);
             });
@@ -246,12 +249,12 @@ class repository_intralibrary_data_service {
 
         $depositItems = array('' => '-- Please Select One --');
 
-        if (repository_intralibrary::is_shared_auth()) {
-            $key = repository_intralibrary\auth::DEPOSIT_POINT_FROM_SSO;
+        if (\repository_intralibrary::is_shared_auth()) {
+            $key = auth::DEPOSIT_POINT_FROM_SSO;
             $depositItems[$key] = '* Determined by SSO User';
         }
         require_once __DIR__.'/../lib.php';
-        $swordService = repository_intralibrary::factory()->build_sword_service(TRUE);
+        $swordService = \repository_intralibrary::factory()->build_sword_service(TRUE);
         $depositURLs = $swordService->getDepositDetails();
         foreach ($depositURLs as $workflowNames => $workflowItems) {
             foreach ($workflowItems as $key => $depositURL) {

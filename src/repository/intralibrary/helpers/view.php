@@ -29,7 +29,7 @@ class repository_intralibrary_view {
 
     private $dataService;
 
-    public function __construct(repository_intralibrary_data_service $dataService) {
+    public function __construct(repository_intralibrary\data_service $dataService) {
         $this->dataService = $dataService;
     }
 

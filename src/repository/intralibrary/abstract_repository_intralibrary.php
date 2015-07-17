@@ -63,7 +63,7 @@ abstract class abstract_repository_intralibrary extends repository {
     /**
      * Accessible via self::data()
      *
-     * @var repository_intralibrary_data_service
+     * @var repository_intralibrary\data_service
      */
     private static $_DATA_SERVICE;
 
@@ -125,12 +125,11 @@ abstract class abstract_repository_intralibrary extends repository {
     }
 
     /**
-     * @return repository_intralibrary_data_service
+     * @return repository_intralibrary\data_service
      */
     public static function data_service() {
         if (!isset(self::$_DATA_SERVICE)) {
-            require_once __DIR__ . '/../intralibrary/helpers/data_service.php';
-            self::$_DATA_SERVICE = new repository_intralibrary_data_service(
+            self::$_DATA_SERVICE = new repository_intralibrary\data_service(
                     self::$_TPROVIDER,
                     self::_get_category_source(),
                     self::$_LOGGER

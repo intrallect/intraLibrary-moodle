@@ -49,15 +49,14 @@ class factory extends auth_base {
 
     /**
      *
-     * @throws Exception
-     * @return abstract_intralibrary_service
+     * @throws \Exception
+     * @return \repository_intralibrary\abstract_service
      */
     public function build_intralibrary_service($options = array()) {
         switch ($this->authSetting) {
             case INTRALIBRARY_AUTH_OPEN:
             case INTRALIBRARY_AUTH_OPEN_TOKEN:
-                require_once __DIR__ . '/../helpers/sru_intralibrary_service.php';
-                $repo = new \sru_intralibrary_service();
+                $repo = new sru_service();
 
                 $token = get_config('intralibrary', 'token');
                 if ($this->authSetting == INTRALIBRARY_AUTH_OPEN_TOKEN && $token) {
@@ -66,8 +65,7 @@ class factory extends auth_base {
 
                 break;
             case INTRALIBRARY_AUTH_SHARED:
-                require_once __DIR__ . '/../helpers/xsearch_intralibrary_service.php';
-                $repo = new \xsearch_intralibrary_service();
+                $repo = new xsearch_service();
 
                 list($username) = $this->auth->get_auth_username_password();
                 $repo->set_username($username);

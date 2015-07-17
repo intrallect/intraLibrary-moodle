@@ -241,8 +241,7 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
         if (!empty($data['customCQL']) && isset($data['customCQL_query'])) {
 
             try {
-                require_once __DIR__ . '/sru_intralibrary_service.php';
-                $service = new sru_intralibrary_service();
+                $service = new repository_intralibrary\sru_service();
                 $service->set_custom_cql($data['customCQL_query']);
 
                 $SRWResp = $service->get_records(array('searchterm' => 'test'));

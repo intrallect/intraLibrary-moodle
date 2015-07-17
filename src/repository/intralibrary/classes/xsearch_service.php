@@ -16,7 +16,7 @@
 
 /**
  *
- * SRU Request Service
+ * X-Search Request Service
  *
  * @package    repository_intralibrary
  * @category   repository
@@ -24,26 +24,45 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
+namespace repository_intralibrary;
 
-require_once __DIR__ . '/abstract_intralibrary_service.php';
+class xsearch_service extends abstract_service {
 
-class sru_intralibrary_service extends abstract_intralibrary_service {
-
-    private $token;
+    private $username;
+    private $myresources_only;
 
     protected function create_request(\IntraLibrary\Service\SRWResponse $srwResp) {
 
-        $xsReq = new \IntraLibrary\Service\SRURequest($srwResp);
+        if (!$this->username) {
+            throw new \Exception("XSearch requires a username");
+        }
 
-        if ($this->token) {
-            $xsReq->setToken($this->token);
+        $xsReq = new \IntraLibrary\Service\XSearchRequest($srwResp);
+        $xsReq->setXSearchUsername($this->username);
+
+        if ($this->myresources_only) {
+            $xsReq->setShowUnpublished(TRUE);
         }
 
         return $xsReq;
     }
 
-    public function set_token($token) {
-        $this->token = $token;
+    protected function build_query($options) {
+        $query = parent::build_query($options);
+
+        if ($this->myresources_only && $this->username) {
+            $query .= " AND rec.username={$this->username}";
+        }
+
+        return $query;
+    }
+
+    public function set_username($username) {
+        $this->username = $username;
+    }
+
+    public function set_my_resources_only($enabled) {
+        $this->myresources_only = (boolean) $enabled;
     }
 }
 

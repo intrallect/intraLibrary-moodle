@@ -24,8 +24,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
+namespace repository_intralibrary;
 
-abstract class abstract_intralibrary_service {
+abstract class abstract_service {
 
     private $customCQL = NULL;
 
@@ -51,7 +52,7 @@ abstract class abstract_intralibrary_service {
         $request = $this->create_request($srwResp);
 
         if (!($request instanceof \IntraLibrary\Service\AbstractSRURequest)) {
-            throw new Exception("IntraLibrary Service created an unsuppored Request object");
+            throw new \Exception("IntraLibrary Service created an unsuppored Request object");
         }
 
         return $request->query(array(
@@ -64,7 +65,7 @@ abstract class abstract_intralibrary_service {
 
     public function set_custom_cql($customCQL) {
         if (!$customCQL) {
-            throw new moodle_exception('settings_customCQL_error', 'repository_intralibrary');
+            throw new \moodle_exception('settings_customCQL_error', 'repository_intralibrary');
         }
         $this->customCQL = $customCQL;
     }
@@ -205,14 +206,14 @@ abstract class abstract_intralibrary_service {
             return ' AND rec.collectionIdentifier="' . $collection . '"';
         } else {
 
-            if (repository_intralibrary::auth()->is(INTRALIBRARY_AUTH_SHARED)) {
+            if (\repository_intralibrary::auth()->is(INTRALIBRARY_AUTH_SHARED)) {
                 // XSearch will handle access control
                 return '';
             }
 
-            $collections = repository_intralibrary::data_service()->get_available_collections();
+            $collections = \repository_intralibrary::data_service()->get_available_collections();
             if (empty($collections)) {
-                throw new moodle_exception('repository_intralibrary', 'settings_user_collections_error');
+                throw new \moodle_exception('repository_intralibrary', 'settings_user_collections_error');
             }
             return ' AND ('.self::_match_any("rec.collectionIdentifier", array_keys($collections)).')';
         }

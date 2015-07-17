@@ -107,13 +107,11 @@ class factory extends auth_base {
     /**
      * Build a set of used data used for VCards based on the current user
      *
-     * @return repository_intralibrary_contributor_data
+     * @return repository_intralibrary\contributor_data
      */
     public function build_contributor_data() {
 
-        require_once __DIR__ . '/../helpers/contributor_data.php';
-
-        $data = new \repository_intralibrary_contributor_data();
+        $data = new contributor_data();
 
         switch ($this->authSetting) {
             case INTRALIBRARY_AUTH_OPEN:

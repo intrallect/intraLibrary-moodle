@@ -24,8 +24,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
+namespace repository_intralibrary;
 
-class repository_intralibrary_contributor_data {
+class contributor_data {
     public $Email;
     public $FullName;
     public $Organisation;

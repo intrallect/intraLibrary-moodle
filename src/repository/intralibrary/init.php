@@ -35,7 +35,6 @@ require_once $CFG->dirroot . '/repository/lib.php';
 // load helpers
 require_once __DIR__ . '/helpers/utils.php';
 require_once __DIR__ . '/helpers/auth.php';
-require_once __DIR__ . '/helpers/logger.php';
 
 // Initialize IntraLibrary
 require_once __DIR__ . '/vendors/IntraLibrary-PHP/src/IntraLibrary/Loader.php';

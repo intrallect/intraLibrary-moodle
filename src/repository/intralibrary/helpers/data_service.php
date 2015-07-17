@@ -39,7 +39,7 @@ class repository_intralibrary_data_service {
     private $catTaxonomySource;
 
     /**
-     * @var repository_intralibrary_logger
+     * @var repository_intralibrary\logger
      */
     private $logger;
 

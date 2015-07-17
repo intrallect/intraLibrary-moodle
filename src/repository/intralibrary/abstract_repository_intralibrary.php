@@ -68,7 +68,7 @@ abstract class abstract_repository_intralibrary extends repository {
     private static $_DATA_SERVICE;
 
     /**
-     * @var repository_intralibrary_logger
+     * @var repository_intralibrary\logger
      */
     protected static $_LOGGER;
 
@@ -97,7 +97,7 @@ abstract class abstract_repository_intralibrary extends repository {
         global $PAGE;
 
         self::$_TPROVIDER = new \IntraLibrary\LibraryObject\TaxonomyData();
-        self::$_LOGGER = new repository_intralibrary_logger();
+        self::$_LOGGER = new repository_intralibrary\logger();
 
         if ($PAGE) {
             $PAGE->requires->js('/repository/intralibrary/vendors/underscore-min.js');

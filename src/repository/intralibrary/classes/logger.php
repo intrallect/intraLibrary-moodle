@@ -24,9 +24,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
-class repository_intralibrary_logger {
+namespace repository_intralibrary;
+
+class logger {
     public function log() {
         call_user_func_array('repository_intralibrary_log', func_get_args());
     }
 }
-

@@ -56,7 +56,7 @@ abstract class abstract_repository_intralibrary extends repository {
     /**
      * Accessible via self::factory()
      *
-     * @var repository_intralibrary_factory
+     * @var repository_intralibrary\factory
      */
     private static $_FACTORY;
 
@@ -108,18 +108,17 @@ abstract class abstract_repository_intralibrary extends repository {
     }
 
     /**
-     * @return repository_intralibrary_factory
+     * @return repository_intralibrary\factory
      */
     public static function factory() {
         if (!isset(self::$_FACTORY)) {
-            require_once __DIR__ . '/../intralibrary/helpers/factory.php';
-            self::$_FACTORY = new repository_intralibrary_factory();
+            self::$_FACTORY = new repository_intralibrary\factory();
         }
         return self::$_FACTORY;
     }
 
     /**
-     * @return repository_intralibrary_auth
+     * @return repository_intralibrary\auth
      */
     public static function auth() {
         return self::factory()->get_auth();

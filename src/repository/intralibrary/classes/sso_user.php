@@ -24,8 +24,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
+namespace repository_intralibrary;
 
-interface repository_intralibrary_sso_user {
+interface sso_user {
 
     /**
      * Determines whether this user is a staff member

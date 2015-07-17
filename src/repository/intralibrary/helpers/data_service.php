@@ -247,7 +247,7 @@ class repository_intralibrary_data_service {
         $depositItems = array('' => '-- Please Select One --');
 
         if (repository_intralibrary::is_shared_auth()) {
-            $key = repository_intralibrary_auth::DEPOSIT_POINT_FROM_SSO;
+            $key = repository_intralibrary\auth::DEPOSIT_POINT_FROM_SSO;
             $depositItems[$key] = '* Determined by SSO User';
         }
         require_once __DIR__.'/../lib.php';

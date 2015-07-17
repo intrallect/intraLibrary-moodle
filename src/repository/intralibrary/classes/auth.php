@@ -24,10 +24,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
+namespace repository_intralibrary;
 
-require_once __DIR__ . '/auth_base.php';
-
-class repository_intralibrary_auth extends repository_intralibrary_auth_base {
+class auth extends auth_base {
 
     const DEPOSIT_POINT_FROM_SSO = 'deposit-point-from-sso';
 
@@ -102,7 +101,7 @@ class repository_intralibrary_auth extends repository_intralibrary_auth_base {
                 $data = $resp->getData();
                 repository_intralibrary_log("Failed to create an IntraLibrary with User/createBcuUser");
                 repository_intralibrary_log($data['exception']['stackTrace']);
-                throw new Exception("Unable to retrieve IntraLibrary username");
+                throw new \Exception("Unable to retrieve IntraLibrary username");
             }
 
             $user->intralibrary_username = $ssoUser->get_username();
@@ -115,7 +114,7 @@ class repository_intralibrary_auth extends repository_intralibrary_auth_base {
      * Get get the sso user
      *
      * @throws Exception
-     * @return repository_intralibrary_sso_user
+     * @return repository_intralibrary\sso_user
      */
     public function get_sso_user($user = NULL) {
 
@@ -177,11 +176,11 @@ class repository_intralibrary_auth extends repository_intralibrary_auth_base {
      */
     private function _validate_sso_user_file($filename) {
         if (!$filename) {
-            throw new moodle_exception('settings_user_auth_shared_class_missing', 'repository_intralibrary');
+            throw new \moodle_exception('settings_user_auth_shared_class_missing', 'repository_intralibrary');
         }
 
         if (!file_exists($filename)) {
-            throw new moodle_exception('settings_user_auth_shared_class_missing', 'repository_intralibrary');
+            throw new \moodle_exception('settings_user_auth_shared_class_missing', 'repository_intralibrary');
         }
     }
 
@@ -194,22 +193,21 @@ class repository_intralibrary_auth extends repository_intralibrary_auth_base {
      */
     private function _validate_sso_user_class($filename) {
 
-        require_once __DIR__ . '/sso_user.php';
         require_once $filename;
 
         $class_name = $this->get_sso_user_class_name($filename);
 
         if (!class_exists($class_name)) {
-            throw new moodle_exception('settings_user_auth_shared_class_bad_class', 'repository_intralibrary', NULL, array(
+            throw new \moodle_exception('settings_user_auth_shared_class_bad_class', 'repository_intralibrary', NULL, array(
                 'path' => $filename,
                 'class_name' => $class_name
             ));
         }
 
-        $interface = 'repository_intralibrary_sso_user';
+        $interface = 'repository_intralibrary\\sso_user';
         $implements = class_implements($class_name);
         if (!in_array($interface, $implements)) {
-            throw new moodle_exception('settings_user_auth_shared_class_no_iterface', 'repository_intralibrary', NULL, array(
+            throw new \moodle_exception('settings_user_auth_shared_class_no_iterface', 'repository_intralibrary', NULL, array(
                 'class_name' => $class_name,
                 'interface' => $interface
             ));

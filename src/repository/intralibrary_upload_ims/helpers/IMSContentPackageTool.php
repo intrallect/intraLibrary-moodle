@@ -159,7 +159,7 @@ XML;
         require_once __DIR__ . '/../../intralibrary_upload/lib.php';
         require_once __DIR__ . '/../../intralibrary/helpers/factory.php';
 
-        $factory = new repository_intralibrary_factory();
+        $factory = new repository_intralibrary\factory();
         $sword = $factory->build_sword_service();
 
         // ensure we have access to the default deposit collection/workflow

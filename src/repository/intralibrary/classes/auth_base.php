@@ -24,8 +24,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
+namespace repository_intralibrary;
 
-abstract class repository_intralibrary_auth_base {
+abstract class auth_base {
 
     protected $authSetting;
 
@@ -35,7 +36,7 @@ abstract class repository_intralibrary_auth_base {
 
     protected function _throwUnknownException() {
         intralibrary_add_moodle_log("view", "Unknown authentication setting: $this->authSetting");
-        throw new Exception("Unknown authentication setting: $this->authSetting - please contact your administrator");
+        throw new \Exception("Unknown authentication setting: $this->authSetting - please contact your administrator");
     }
 
     public function is($auth_setting) {

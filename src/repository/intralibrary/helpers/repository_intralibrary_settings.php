@@ -180,8 +180,7 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
                 $errors['sso_user_class'] = self::get_string('settings_user_auth_shared_class_missing');
             } else {
                 try {
-                    require_once __DIR__ . '/auth.php';
-                    $authHelper = new repository_intralibrary_auth();
+                    $authHelper = new repository_intralibrary\auth();
                     $authHelper->validate_sso_user($data['sso_user_class']);
                 } catch (Exception $ex) {
                     $errors['sso_user_class'] = $ex->getMessage();

@@ -534,7 +534,7 @@ class repository_intralibrary_upload extends abstract_repository_intralibrary {
              }
          }
 
-        if ($url == repository_intralibrary_auth::DEPOSIT_POINT_FROM_SSO) {
+        if ($url == repository_intralibrary\auth::DEPOSIT_POINT_FROM_SSO) {
              $url = self::auth()->get_sso_user()->get_deposit_url();
         }
         return $url;

@@ -24,24 +24,24 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
-require_once __DIR__ . '/auth_base.php';
+namespace repository_intralibrary;
 
-class repository_intralibrary_factory extends repository_intralibrary_auth_base {
+class factory extends auth_base {
 
     /**
-     * @var repository_intralibrary_auth
+     * @var repository_intralibrary\auth
      */
     private $auth;
 
     public function __construct() {
         parent::__construct();
-        $this->auth = new repository_intralibrary_auth();
+        $this->auth = new auth();
     }
 
     /**
      * Get the auth service used by the factory
      *
-     * @return repository_intralibrary_auth
+     * @return repository_intralibrary\auth
      */
     public function get_auth() {
         return $this->auth;
@@ -56,8 +56,8 @@ class repository_intralibrary_factory extends repository_intralibrary_auth_base 
         switch ($this->authSetting) {
             case INTRALIBRARY_AUTH_OPEN:
             case INTRALIBRARY_AUTH_OPEN_TOKEN:
-                require_once __DIR__ . '/sru_intralibrary_service.php';
-                $repo = new sru_intralibrary_service();
+                require_once __DIR__ . '/../helpers/sru_intralibrary_service.php';
+                $repo = new \sru_intralibrary_service();
 
                 $token = get_config('intralibrary', 'token');
                 if ($this->authSetting == INTRALIBRARY_AUTH_OPEN_TOKEN && $token) {
@@ -66,8 +66,8 @@ class repository_intralibrary_factory extends repository_intralibrary_auth_base 
 
                 break;
             case INTRALIBRARY_AUTH_SHARED:
-                require_once __DIR__ . '/xsearch_intralibrary_service.php';
-                $repo = new xsearch_intralibrary_service();
+                require_once __DIR__ . '/../helpers/xsearch_intralibrary_service.php';
+                $repo = new \xsearch_intralibrary_service();
 
                 list($username) = $this->auth->get_auth_username_password();
                 $repo->set_username($username);
@@ -113,9 +113,9 @@ class repository_intralibrary_factory extends repository_intralibrary_auth_base 
      */
     public function build_contributor_data() {
 
-        require_once __DIR__ . '/contributor_data.php';
+        require_once __DIR__ . '/../helpers/contributor_data.php';
 
-        $data = new repository_intralibrary_contributor_data();
+        $data = new \repository_intralibrary_contributor_data();
 
         switch ($this->authSetting) {
             case INTRALIBRARY_AUTH_OPEN:

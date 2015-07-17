@@ -35,7 +35,7 @@ function repository_intralibrary_config() {
     return $config;
 }
 
-function repository_intralibrary_do_with_user(repository_intralibrary_sso_user $sso_user, $callable) {
+function repository_intralibrary_do_with_user(repository_intralibrary\sso_user $sso_user, $callable) {
 
     if (!is_callable($callable)) {
         throw new Exception("Must pass a callable");

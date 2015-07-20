@@ -267,12 +267,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
                 }
                 $link = $array['url'];
             } else if (optional_param('get_original_filename', FALSE, PARAM_RAW)) {
-                if (self::is_shared_auth()) {
-                    $link = $this->_get_repository_filename_from_id($array['id']);
-                }
-                if (!$link) {
-                    $link = $this->_get_repository_filename($array['url']);
-                }
+                $link = $this->_get_repository_filename($array);
             } else {
                 if (self::is_shared_auth()) {
                     $link = $array['url'];

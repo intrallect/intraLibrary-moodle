@@ -27,6 +27,7 @@
  */
 
 use IntraLibrary\Service\RESTRequest;
+use IntraLibrary\Service\RESTFileResponse;
 
 // initialise the intralibrary moodle plugin
 require_once __DIR__ . '/init.php';
@@ -264,13 +265,27 @@ abstract class abstract_repository_intralibrary extends repository {
     }
 
     /**
-     * Get the filename for a url
+     * Get a repository object's filename
      *
-     * @param string $url
+     * @param array $object
      * @return string
      */
-    protected function _get_repository_filename($url) {
-        $headers = $this->_get_response_headers($url);
+    protected function _get_repository_filename($object) {
+
+        if (self::is_shared_auth()) {
+
+            // Export the object, and pickup the filename from the headers
+            $curlHandle = curl_init();
+            curl_setopt($curlHandle, CURLOPT_NOBODY, TRUE);
+
+            $req = new RESTRequest(new RESTFileResponse(FALSE));
+            $req->get("LearningObject/smartExport/{$object['id']}", array(), $curlHandle);
+
+            $headers = join('', $req->getLastResponseHeaders());
+
+        } else {
+            $headers = $this->_get_response_headers($object['url']);
+        }
 
         // this is meant to be a "file download" request
         if (preg_match('#Content\-Disposition\: attachment; filename=(.*)#', $headers, $match)) {
@@ -283,19 +298,6 @@ abstract class abstract_repository_intralibrary extends repository {
         }
 
         return basename(parse_url($url, PHP_URL_PATH));
-    }
-
-    /**
-     * Get the filename from a resource id
-     * @param unknown $id
-     */
-    protected function _get_repository_filename_from_id($id) {
-        $req = new RESTRequest();
-        $data = $req->get("LearningObject/show/$id")->getData();
-
-        return isset($data['learningObject']) && isset($data['learningObject']['fileName']) ?
-            $data['learningObject']['fileName'] :
-            null;
     }
 
     /**

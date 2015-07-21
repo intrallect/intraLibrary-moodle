@@ -133,6 +133,7 @@ class intralibrary_list_item extends ArrayObject {
                 'fileext' => $fileExt,
                 'source' => self::create_source_from_object($record),
                 'type' => $type,
+                'resourceType' => $record->get('type'),
                 'url' => self::get_preview_url($record),
                 'downloadUrl' => self::get_download_url($record),
                 'author' => $this->_getAuthors($record->get('author')),
@@ -142,6 +143,10 @@ class intralibrary_list_item extends ArrayObject {
 
         if ($size = trim($record->get('size'))) {
             $data['size'] = $size;
+        }
+
+        if ($org = $this->_getOrganisations($record->get('author'))) {
+            $data['org'] = $org;
         }
 
         return parent::__construct($data);
@@ -166,18 +171,44 @@ class intralibrary_list_item extends ArrayObject {
         if (is_array($vcard)) {
             foreach ($vcard as $vc) {
                 try {
-                    $allnames .= " ".($this->_parseVCard($vc)).",";
+                    $allnames .= " ".($this->_parseVCardForName($vc)).",";
                 } catch (Exception $ex) {
                     //invalid vcard format
                 }
             }
             return trim($allnames, ",");
         } else {
-            return $this->_parseVCard($vcard);
+            return $this->_parseVCardForName($vcard);
         }
     }
 
-    private function _parseVCard($vc) {
+    private function _getOrganisations($vcard) {
+        $allnames ="";
+        if (is_array($vcard)) {
+            foreach ($vcard as $vc) {
+                try {
+                    $allnames .= " ".($this->_parseVCardForOrg($vc)).",";
+                } catch (Exception $ex) {
+                    //invalid vcard format
+                }
+            }
+            return trim($allnames, ",");
+        } else {
+            return $this->_parseVCardForOrg($vcard);
+        }
+    }
+
+    private function _parseVCardForOrg($vc) {
+        $matches = array();
+        preg_match("/ORG:([A-Za-z\s]+)\s[A-Z]+\:/", $vc, $matches);
+        if (isset($matches[1]) && !empty($matches[1])) {
+            return trim($matches[1]);
+        } else {
+            return null;
+        }
+    }
+
+    private function _parseVCardForName($vc) {
         $namePos = strpos($vc, "FN:");
         $name = substr($vc, $namePos + 3);
         $name = substr($name, 0, strpos($name, ":"));

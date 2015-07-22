@@ -288,14 +288,14 @@ class repository_intralibrary_data_service {
      * Get all resource types
      * @return mixed
      */
-    public function get_resource_types() {
+    public function get_resource_types($withSource = FALSE) {
 
         $vocabId = get_config('intralibrary', 'resource_type_vocabulary_id');
         if (!$vocabId) {
             return array();
         }
 
-        $key = 'resource_types_vocabulary_' . $vocabId;
+        $key = 'resource_types_vocabulary_' . $vocabId . ($withSource ? '_with_source' : '');
         $cached = Cache::load($key);
         if ($cached !== FALSE) {
             return $cached;
@@ -307,8 +307,12 @@ class repository_intralibrary_data_service {
         $resource_types = array();
 
         foreach ($data['vocabulary']['vocabularyEntries']['vocabularyEntry'] as $entry) {
-            if (is_string($entry['value'])) {
-                $resource_types[] = $entry['value'];
+            if (is_string($entry['value']) && is_string($entry['vocabularySource']['source'])) {
+                $value = $entry['value'];
+                if ($withSource) {
+                    $value .= " ({$entry['vocabularySource']['source']})";
+                }
+                $resource_types[] = $value;
             }
         }
 

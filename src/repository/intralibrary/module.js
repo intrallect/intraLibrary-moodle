@@ -188,6 +188,7 @@
 			}
 
 			var login_form = Y.one('#fp-form-' + this.options.client_id);
+			login_form.addClass('fp-repository-intralibrary');
 
 			if (data.intralibrary_url && !intralibrary_ready) {
 				// initiate an IntraLibrary session to allow thumbnails to load without SSO redirects
@@ -224,9 +225,7 @@
 					login_form.one('input[name=' + d.name + ']').set('value', d.value);
 				}
 			}
-			var submitButton = Y.one('button.fp-login-submit');
-			submitButton.addClass('mb-10');
-			Y.Node.create('<input type="reset" value="Reset" class="fp-login-submit">').appendTo(submitButton.get('parentNode'));
+			Y.Node.create('<input type="reset" value="Reset" class="fp-login-submit" />').appendTo(login_form.one('> p'));
 		};
 	};
 

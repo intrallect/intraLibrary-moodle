@@ -204,7 +204,7 @@ class intralibrary_list_item extends ArrayObject {
         if (isset($matches[1]) && !empty($matches[1])) {
             return trim($matches[1]);
         } else {
-            return null;
+            return NULL;
         }
     }
 

@@ -53,6 +53,7 @@ $string['settings_user_collections'] = 'Enabled Collections';
 $string['settings_user_collections_info'] = 'You must properly configure intraLibrary before selecting collections';
 $string['settings_user_collections_error'] = 'Please select at least one collection';
 $string['settings_enabled_query_fields'] = 'Enabled restriction fields';
+$string['settings_show_intralibrary_link'] = 'Show link to search results in intraLibrary';
 $string['settings_customCQL'] = 'Addition search CQL';
 $string['settings_customCQL_query'] = 'Query';
 $string['settings_customCQL_desc'] = 'Please note, your custom query will be added after each form generated query.';

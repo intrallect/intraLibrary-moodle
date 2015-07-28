@@ -70,6 +70,7 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
         if ($sharedAuthSettings) {
             $mform->addElement('text', 'sso_user_class', self::get_string('settings_user_auth_shared_class'), 'size="40"');
             $mform->setType('sso_user_class', PARAM_RAW);
+            $mform->addElement('checkbox', 'show_intralibrary_link', self::get_string('settings_show_intralibrary_link'));
         }
 
         $mform->addElement('text', 'search_limit', self::get_string('settings_search_limit'), 'size="5"');
@@ -294,6 +295,7 @@ class repository_intralibrary_settings extends abstract_repository_intralibrary_
                 'token',
                 'kaltura_url',
                 'sso_user_class',
+                'show_intralibrary_link',
                 'category',
                 'customCQL',
                 'customCQL_query',

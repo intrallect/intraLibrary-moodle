@@ -120,9 +120,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
         parent::_prepare_for_repository($page, $repositoryid);
 
         $addFile = basename($_SERVER['SCRIPT_NAME']) == 'modedit.php' && (isset($_GET['add']) && $_GET['add'] == 'resource');
-        $page->requires->js_init_call('M.repository_intralibrary.set_reference_only', array(
-                $addFile
-        ));
+        $page->requires->js_init_call('M.repository_intralibrary.set_reference_only', array($addFile));
         $page->requires->string_for_js('search_kaltura_error', 'repository_intralibrary');
 
     }
@@ -237,7 +235,8 @@ class repository_intralibrary extends abstract_repository_intralibrary {
                 'pages' => $limit ? ceil($response->getTotalRecords() / $limit) : 0,
                 'parameters' => $options
         );
-        if (self::is_shared_auth()) {
+
+        if (self::is_shared_auth() && get_config($this->get_typename(), 'show_intralibrary_link')) {
             $listing["manage"] = rtrim($hostname, '/') . '/_search.jsp?search_phrase=' . $options['searchterm'];
         }
 

@@ -200,10 +200,6 @@ class repository_intralibrary extends abstract_repository_intralibrary {
     private function _get_listings($options, $page, $order) {
         require_once __DIR__ . '/helpers/intralibrary_list_item.php';
 
-        if (empty($options['searchterm'])) {
-            throw new Exception('Missing Search Term');
-        }
-
         // include request-based query options
         $options['accepted_types'] = $this->_get_accepted_types();
         $options['env'] = $this->_get_env();

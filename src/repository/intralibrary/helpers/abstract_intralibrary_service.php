@@ -87,10 +87,16 @@ abstract class abstract_intralibrary_service {
         $query .= $this->_build_env_constraint($env);
 
         if ($this->customCQL) {
-            $query .= " ". $this->customCQL;
+            $query .= " " . $this->customCQL;
         }
 
-        return ltrim($query, " AND");
+        $query = trim(ltrim($query, " AND"));
+
+        if (empty($query)) {
+            throw new Exception("Unable to build search query - you must include a search term, or any other constraint.");
+        }
+
+        return $query;
     }
 
     /**

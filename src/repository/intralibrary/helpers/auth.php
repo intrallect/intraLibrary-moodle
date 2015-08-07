@@ -121,10 +121,8 @@ class repository_intralibrary_auth extends repository_intralibrary_auth_base {
 
         if (!isset($this->sso_user)) {
 
-            $filename = get_config('intralibrary', 'sso_user_class');
-            $this->validate_sso_user($filename);
-
-            $class_name = $this->get_sso_user_class_name($filename);
+            $config = repository_intralibrary_config();
+            $class_name = $this->validate_sso_user($config->sso_user_class);
             $this->sso_user = new $class_name($user);
         }
 
@@ -155,34 +153,35 @@ class repository_intralibrary_auth extends repository_intralibrary_auth_base {
      * @throws Exception if there is an issue
      */
     public function validate_sso_user($filename) {
-        $this->_validate_sso_user_file($filename);
-        $this->_validate_sso_user_class($filename);
-    }
-
-    /**
-     * Get the sso user class name based on filename
-     *
-     * @param string $filename
-     * @return string
-     */
-    public function get_sso_user_class_name($filename) {
-        return pathinfo($filename, PATHINFO_FILENAME);
+        $filename = $this->_validate_sso_user_file($filename);
+        return $this->_validate_sso_user_class($filename);
     }
 
     /**
      * Ensure the file exists
      *
      * @param string $filename
+     * @return string filename
      * @throws Exception
      */
     private function _validate_sso_user_file($filename) {
+
+        global $CFG;
+
         if (!$filename) {
             throw new moodle_exception('settings_user_auth_shared_class_missing', 'repository_intralibrary');
         }
 
-        if (!file_exists($filename)) {
-            throw new moodle_exception('settings_user_auth_shared_class_missing', 'repository_intralibrary');
+        if (file_exists($filename)) {
+            return $filename;
         }
+
+        $filename = $CFG->dirroot . DIRECTORY_SEPARATOR . $filename;
+        if (file_exists($filename)) {
+            return $filename;
+        }
+
+        throw new moodle_exception('settings_user_auth_shared_class_missing', 'repository_intralibrary');
     }
 
     /**
@@ -197,7 +196,7 @@ class repository_intralibrary_auth extends repository_intralibrary_auth_base {
         require_once __DIR__ . '/sso_user.php';
         require_once $filename;
 
-        $class_name = $this->get_sso_user_class_name($filename);
+        $class_name = pathinfo($filename, PATHINFO_FILENAME);
 
         if (!class_exists($class_name)) {
             throw new moodle_exception('settings_user_auth_shared_class_bad_class', 'repository_intralibrary', NULL, array(

@@ -47,8 +47,9 @@ $config = repository_intralibrary_config();
     isset($CFG->intraLibrary_timeout) ? $CFG->intraLibrary_timeout : 5000);
 
 $ilCache = cache::make('repository_intralibrary', 'app_cache');
-\IntraLibrary\Cache::register('load', array($ilCache, 'get'));
-\IntraLibrary\Cache::register('save', array($ilCache, 'set'));
+\IntraLibrary\Cache::register('load',   array($ilCache, 'get'));
+\IntraLibrary\Cache::register('save',   array($ilCache, 'set'));
+\IntraLibrary\Cache::register('delete', array($ilCache, 'delete'));
 
 \IntraLibrary\Debug::register('log', 'repository_intralibrary_log');
 \IntraLibrary\Debug::register('screen',

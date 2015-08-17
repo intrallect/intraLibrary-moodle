@@ -301,8 +301,15 @@ class repository_intralibrary_data_service {
             return $cached;
         }
 
-        $req = new RESTRequest();
-        $data = $req->get('Vocabulary/show/' . $vocabId)->getData();
+        try {
+            $req = new RESTRequest();
+            $data = $req->get('Vocabulary/show/' . $vocabId)->getData();
+        } catch (Exception $ex) {
+            $message = "Unable to get resource types: " . $ex->getMessage();
+            intralibrary_add_moodle_log("update", $message);
+            $this->logger->log($message);
+            return array();
+        }
 
         $resource_types = array();
 

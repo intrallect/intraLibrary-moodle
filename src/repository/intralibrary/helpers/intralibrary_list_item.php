@@ -138,7 +138,9 @@ class intralibrary_list_item extends ArrayObject {
                 'downloadUrl' => self::get_download_url($record),
                 'author' => $this->_getAuthors($record->get('author')),
                 'packageId' => $record->get('packageId'),
-                'classifications' =>  $record->get('classifications')
+                'classifications' =>  $record->get('classifications'),
+                'catalog' => $record->getCatalog(),
+                'catalogId' => $record->getCatalogId()
         );
 
         if ($size = trim($record->get('size'))) {

@@ -171,6 +171,9 @@ class filter_intralibrary extends moodle_text_filter {
         if (empty($this->hostname)) {
             $url = get_config('intralibrary', 'kaltura_url');
             $this->hostname = parse_url($url, PHP_URL_HOST);
+            if (empty($this->hostname)) {
+                throw new Exception($this->_get_string('error_missing_kaltura_url'));
+            }
         }
 
         return $this->hostname;

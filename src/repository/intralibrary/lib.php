@@ -256,7 +256,7 @@ class repository_intralibrary extends abstract_repository_intralibrary {
         if ($acceptedTypes == "*" && isset($array['send_url'])) {
             $link = $array['send_url'];
         } else if (!empty($array['url'])) {
-            if (strpos($array['url'], KALTURA_VIDEO_PREFIX) === 0) {
+            if (strpos($array['url'], repository_intralibrary\kaltura::PREFIX) === 0) {
                 if ($this->_get_env() == "filemanager") {
                     throw new moodle_exception('search_kaltura_error', 'repository_intralibrary');
                 }

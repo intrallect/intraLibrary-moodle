@@ -61,6 +61,14 @@ $ilCache = cache::make('repository_intralibrary', 'app_cache');
 define('INTRALIBRARY_AUTH_OPEN',        'open');
 define('INTRALIBRARY_AUTH_OPEN_TOKEN',  'open_token');
 define('INTRALIBRARY_AUTH_SHARED',      'shared');
-define('KALTURA_VIDEO_PREFIX',          'http://intralibrary-kaltura-filter/');
-define('KALTURA_FILE_EXTENSIONS',       'flv,asf,qt,mov,mpg,avi,wmv,mp4,3gp,f4v,m4v');
+
+/**
+ * @deprecated use \repository_intralibrary\kaltura::PREFIX instead
+ */
+define('KALTURA_VIDEO_PREFIX', repository_intralibrary\kaltura::PREFIX);
+
+/**
+ * @deprecated use \repository_intralibrary\kaltura::FILE_EXTENSIONS instead
+ */
+define('KALTURA_FILE_EXTENSIONS', repository_intralibrary\kaltura::FILE_EXTENSIONS);
 

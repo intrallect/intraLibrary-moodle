@@ -14,14 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ *
+ * General log entry type of the IntraLibrary plugin family
+ *
+ * This event is used to log any special event, including exceptions,
+ * errors, configuration changes.
+ *
+ * @package    repository_intralibrary
+ * @category   repository
+ * @copyright  2015 Intrallect
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ */
+namespace repository_intralibrary;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2016012100;
-$plugin->requires = 2014051200;
-$plugin->component = 'filter_intralibrary';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.1';
-
-$plugin->dependencies = array(
-        'repository_intralibrary' => 2016012100
-);
+class kaltura {
+    const PREFIX            = 'http://intralibrary-kaltura-filter/';
+    const FILE_EXTENSIONS   = 'flv,asf,qt,mov,mpg,avi,wmv,mp4,3gp,f4v,m4v';
+}

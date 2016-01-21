@@ -14,14 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
+/**
+ * The core of the IntraLibrary Filter plugin
+ *
+ * This filter plugin renders Kaltura  videos sourced
+ * from the IntraLibrary repository. The filter must
+ * be turned on in order to display Kaltura videos.
+ *
+ * @package    filter_intralibrary
+ * @category   filter
+ * @copyright  2015 Intrallect
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
-$plugin->version = 2016012100;
-$plugin->requires = 2014051200;
-$plugin->component = 'filter_intralibrary';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.1';
+namespace filter_intralibrary;
 
-$plugin->dependencies = array(
-        'repository_intralibrary' => 2016012100
-);
+class fiexception extends \moodle_exception {
+
+    public function __construct($errorcode, $link='', $a = null, $debuginfo = null) {
+        parent::__construct($errorcode, 'filter_intralibrary', $link, $a, $debuginfo);
+    }
+}

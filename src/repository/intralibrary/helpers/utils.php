@@ -147,7 +147,7 @@ function repository_intralibrary_can_write_to_file($filepath) {
  * @return string
  */
 function repository_intralibrary_generate_kaltura_uri($learningObjectId, $title = 'KalturaVideo') {
-    return KALTURA_VIDEO_PREFIX . ((int) $learningObjectId) . '/' . urlencode($title);
+    return repository_intralibrary\kaltura::PREFIX . ((int) $learningObjectId) . '/' . urlencode($title);
 }
 
 /**

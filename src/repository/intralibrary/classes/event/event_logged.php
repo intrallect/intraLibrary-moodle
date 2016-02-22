@@ -37,8 +37,13 @@ class event_logged extends \core\event\base {
      * These array elements are mandatory, must be the same for all instances of the class
      */
     protected function init() {
+        global $CFG;
+        if (version_compare($CFG->release, '2.7') == -1) {
+            $this->data['level'] = self::LEVEL_OTHER;
+        } else {
+            $this->data['edulevel'] = self::LEVEL_OTHER;
+        }
         $this->data['crud'] = 'c';
-        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
     }
 
     /**

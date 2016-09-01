@@ -176,12 +176,11 @@ XML;
         }
 
         // find the new ID
-        preg_match('/^.*\:(\d+)$/', (string) $response->sac_id, $matches);
-        if (!isset($matches[1])) {
+        $loID = $sword->get_lo_id($response);
+        if (!$loID) {
             \IntraLibrary\Debug::log("IMS Package upload failed to process: $response->sac_id");
             throw new Exception("Unable to retrieve package identifier");
         }
-        $loID = $matches[1];
 
         // export (and save) the newly deposited Learning Object from IntraLibrary
         $req = new \IntraLibrary\Service\Request('IntraLibrary-REST/');

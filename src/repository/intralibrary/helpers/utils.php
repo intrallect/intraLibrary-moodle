@@ -179,6 +179,13 @@ function intralibrary_is_admin_request() {
  * @param string $mimetype
  */
 function intralibrary_get_file_extension($mimetype) {
+
+    // Handle intraLibrary mime type config.
+    switch ($mimetype) {
+        case 'audio/x-mpeg':
+            return 'mp3';
+    }
+
     $mimetypes = get_mimetypes_array();
     foreach ($mimetypes as $ext => $data) {
         if ($data['type'] == $mimetype) {

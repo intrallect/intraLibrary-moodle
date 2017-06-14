@@ -266,7 +266,7 @@ function intralibrary_get_basic_log_data() {
 
     // determine context and course id
     $context = $PAGE->context;
-    $courseId = ($context->get_course_context(FALSE)) ? $context->get_course_context()->instanceid : get_site()->id;
+    $courseId = ($context->get_course_context(FALSE)) ? $context->get_course_context()->instanceid : 0;
 
     // put the information above in an array using the expected format for event create() function
     $logData = array(

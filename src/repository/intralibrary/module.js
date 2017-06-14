@@ -225,7 +225,12 @@
 					login_form.one('input[name=' + d.name + ']').set('value', d.value);
 				}
 			}
-			Y.Node.create('<input type="reset" value="Reset" class="fp-login-submit" />').appendTo(login_form.one('> p'));
+
+			var resetButton = Y.Node.create('<input type="button" value="Reset" class="btn fp-login-submit" />');
+			resetButton.appendTo(login_form.one('> div:last-child'));
+			resetButton.on('click', function() {
+				login_form.reset();
+			});
 		};
 	};
 

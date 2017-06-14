@@ -141,7 +141,7 @@
 
 			// update "Manage" link text
 			var repo_name = compatible_repos[this.active_repo.id],
-				icon_url = '/repository/intralibrary/pix/icon.png',
+				icon_url = M.cfg.wwwroot + '/repository/intralibrary/pix/icon.png',
 				manage_text = 'Search "' + search_parameters.searchterm + '" in ' + repo_name,
 				manage_link = this.active_repo.manage;
 
@@ -152,7 +152,7 @@
 
 				var logOutNode = this.fpnode.one('div.fp-tb-logout');
 				logOutNode.one('a').set('title', 'New search')
-				logOutNode.one('img').set('src','/pix/a/search.png')
+				logOutNode.one('img').set('src', M.cfg.wwwroot + '/pix/a/search.png')
 
 			}
 

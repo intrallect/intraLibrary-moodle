@@ -82,7 +82,7 @@
 	};
 
 	// attach css
-	var filepickerCss = '/repository/intralibrary/filepicker.css';
+	var filepickerCss = M.cfg.wwwroot + '/repository/intralibrary/filepicker.css';
     var isLoaded = _.find(document.styleSheets, function(stylesheet) {
         return stylesheet.href
                 ? stylesheet.href.indexOf(filepickerCss) != -1

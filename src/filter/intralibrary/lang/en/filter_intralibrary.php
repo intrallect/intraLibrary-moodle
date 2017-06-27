@@ -1,5 +1,5 @@
 <?php
-$string['filtername'] = 'IntraLibrary Text Filter';
+$string['filtername'] = 'IntraLibrary Kaltura Filter';
 $string['unable_to_display'] = 'Unable to display Kaltura video';
 $string['check_settings'] = 'Please re-check your intraLibrary repository settings';
 $string['missing_embed_code'] = 'Missing Embed Code';

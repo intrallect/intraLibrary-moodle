@@ -16,11 +16,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2016012100;
+$plugin->version = 2017062700;
 $plugin->requires = 2014051200;
 $plugin->component = 'filter_intralibrary';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.1';
+$plugin->release = '1.2';
 
 $plugin->dependencies = array(
         'repository_intralibrary' => 2016012100

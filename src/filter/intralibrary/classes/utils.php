@@ -77,9 +77,7 @@ class utils {
         } else {
 
             $embed = trim($data['LearningObject']);
-            if (stristr($embed, self::get_kaltura_hostname())) {
-                /* Only display the embed code if it contains the Kaltura hostname
-                 * (embed codes without signs of Kaltura might not be ready for use) */
+            if (self::embed_code_is_ready($embed)) {
                 return $embed;
             }
 
@@ -91,19 +89,19 @@ class utils {
      *
      * @return string get the Kaltura server's hostname
      */
-    public static function get_kaltura_hostname() {
+    public static function embed_code_is_ready($embed) {
 
-        static $hostname;
+        static $detect;
 
-        if (empty($hostname)) {
-            $url = get_config('intralibrary', 'kaltura_url');
-            $hostname = parse_url($url, PHP_URL_HOST);
-            if (empty($hostname)) {
-                throw new fiexception('error_missing_kaltura_url');
-            }
+        if (empty($detect)) {
+            $detect = get_config('filter_intralibrary', 'detect_embed_code');
         }
 
-        return $hostname;
+        if ($detect === '') {
+            return true;
+        }
+
+        return stristr($embed, $detect);
     }
 
     private static function _get_admin_user_id() {

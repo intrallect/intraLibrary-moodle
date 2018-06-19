@@ -21,5 +21,5 @@ $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '1.0';
 
 $plugin->dependencies = array(
-        'repository_intralibrary_upload_ims' => 2015033003
+        'repository_intralibrary_upload_ims' => 2015031102
 );
